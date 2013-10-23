@@ -1,0 +1,64 @@
+//
+// Mixins
+// --------------------------------------------------
+
+
+@mixin clearfix() {
+  &:before,
+  &:after {
+    content: " "; /* 1 */
+    display: table; /* 2 */
+  }
+  &:after {
+    clear: both;
+  }
+}
+
+@mixin fl() {
+  float: left;
+}
+
+@mixin fr() {
+  float: right;
+}
+
+@mixin bc() {
+  margin: 0 auto;
+}
+
+@mixin hidden() {
+  visibility: hidden;
+}
+
+@mixin none() {
+  display: none;
+}
+
+//
+// Classes
+// --------------------------------------------------
+
+.clearfix{
+  @include clearfix;
+}
+
+.fl{
+  @include fl;
+}
+
+.fr{
+  @include fr;
+}
+
+.bc{
+  @include bc;
+}
+
+.hidden{
+  @include hidden;
+}
+
+.none{
+  @include none;
+}
+

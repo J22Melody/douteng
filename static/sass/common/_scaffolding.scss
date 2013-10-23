@@ -1,0 +1,208 @@
+@charset "utf-8";
+
+// Reset the box-sizing
+
+*,
+*:before,
+*:after {
+  @include box-sizing(border-box);
+}
+
+// Body reset
+
+body {
+  font-family: $font-family-base;
+  font-size: $font-size-base;
+  line-height: $line-height-base;
+  color: $text-color;
+  background-color: $body-bg;
+  width: 100%;
+  min-width: 960px;
+  min-height: 100%;
+  position: relative;
+}
+
+// Reset fonts for relevant elements
+input,
+button,
+select,
+textarea {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+// Reset unusual Firefox-on-Android default style.
+//
+// See https://github.com/necolas/normalize.css/issues/214
+
+button,
+input,
+select[multiple],
+textarea {
+  background-image: none;
+}
+
+// Links
+
+a {
+  color: $link-color;
+  text-decoration: none;
+
+  &:hover,
+  &:focus {
+    color: $link-hover-color;
+    background: $link-hover-background;
+}
+}
+
+// Scaffolding
+
+#header{
+    width: 100%;
+    height: 60px;
+    background: #edf4ed;
+    position: fixed;
+    z-index: 20;
+    top: 0;
+
+    #inner-header{
+        @include bc;
+        width: 960px;
+        position: relative;
+
+        #logo{
+            @include fl;
+            display: block;
+            width: 144px;
+            height: 33px;
+            margin-top: 12px;
+            background: url(/static/images/logo.png) no-repeat center;
+        }
+
+        #nav{
+            @include fl;
+            margin-left: 40px;
+            margin-top: 22px;
+
+            a{
+                color: #072;
+                font-size: 14px;
+                margin: 0 16px;
+
+                &:hover{
+                    background: #072;
+                    color: #fff;
+                }
+            }
+        }
+
+        #info{
+            @include fr;
+            margin-top: 24px;
+
+            a{
+                margin-left: 8px;
+            }
+        }
+    }
+
+    #search-wrapper{
+        @include bc;
+        position: relative;
+        top: 70px;
+        z-index: 999;
+        width: 400px;
+        height: 48px;
+        background: rgba(208, 208, 208, 0.4);   
+        @include border-radius(22px);
+        @include box-shadow(0,1px,4px,rgba(0, 0, 0, 0.4));
+
+        #douteng{
+            position: absolute;
+            top: -95px;
+            left: 188px;
+            height: 95px;
+            width: 22px;
+            z-index: 1000;
+            background: url(/static/images/douteng.png) repeat-y center; 
+        }
+
+        #search{
+            background: #fff;
+            width: 384px;
+            height: 38px;
+            line-height: 26px;
+            position: relative;
+            left: 8px;
+            top: 5px;
+            padding: 4px;
+            border: 3px solid rgba(162, 163, 162, 0.47);
+            @include border-radius(16px);
+
+            input[type=text]{
+                outline: none;
+                border: none;
+                width: 300px;
+                height: 28px;
+                font-size: 18px;
+                margin-left: 20px;
+                position: absolute;
+                color: #787a78;
+                display: inline-block;
+                top: 2px;
+                left: -4px;
+            }
+
+            input[type=submit]{
+                border: none;
+                width: 24px;
+                height: 24px;
+                position: absolute;
+                cursor: pointer;
+                top: 6px;
+                right: 10px;
+                background: url("/static/images/search.png") no-repeat center;
+            }
+        }            
+    }
+}
+
+#main{
+    @include bc;
+    @include clearfix;
+    width: 960px;
+    position: relative;
+    margin-top: 120px;
+    margin-bottom: 50px;
+    min-height: 640px;
+
+    #main-left{
+        @include fl;
+        width: 640px;
+    }
+
+    #main-right{
+        @include fr;
+        width: 260px;
+    }
+}
+
+#footer{
+    @include bc;
+    width: 960px;
+    position: relative;
+    bottom: 20px;
+    border-top: 1px dotted #999;
+    border-bottom: 1px dotted #999;
+    height: 36px;
+    line-height: 36px;
+
+    #footer-left{
+        @include fl;
+    }
+
+    #footer-right{
+        @include fr;
+    }
+}

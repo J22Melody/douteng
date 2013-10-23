@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>  
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">  
+
+    <title>{% block title %}{{ title|default:"" }}{% endblock %}</title>  
+
+    <link rel="stylesheet" href="/static/css/common/common.css">  
+    {% if title %}
+    <link rel="stylesheet" href="/static/css/special/{{ title }}.css"> 
+    {% endif %}
+
+</head>  
+<body>     
+    <header id="header">
+        <div id="inner-header">
+            <a href="" id="logo"></a>
+            <nav id="nav">
+                <a href="">首页</a>
+                <a href="">我的豆藤</a>
+                <a href="">浏览发现</a>
+            </nav>
+            <div id="info">
+            {% if request.user.is_authenticated %}              
+                <a href="">提醒</a>
+                <a href="">退出</a>
+            {% else %}           
+                <a href="">登录</a>
+                <a href="">注册</a>            
+            {% endif %}
+            </div>             
+        </div>
+        <div id="search-wrapper">
+            <div id="douteng"></div>
+            <form method="GET" action="" id="search">
+                <input type="text" name="q" placeholder="想知道什么" />
+                <input type="submit" value="" />
+            </form>
+        </div>
+    </header>
+
+    <div id="main">
+        <section id="main-left">{% block main-left %}{% endblock %}</section>
+        <aside id="main-right">{% block main-right %}{% endblock %} </aside>
+        {% block main %}{% endblock %} 
+    </div>
+      
+    <footer id="footer">
+        <div id="footer-left">
+            © 2011－2013 douteng.com, all rights reserved 
+        </div>
+        <div id="footer-right">
+            <a href="http://www.jiangzifan.com" target="_blank">关于作者</a>
+        </div>
+    </footer>
+
+    <script type="text/javascript" src="/static/js/lib/require.js"></script>
+    <script type="text/javascript" src="/static/js/common/main.js"></script>
+    <script type="text/javascript" src="/static/js/common/common.js"></script>
+    {% if title %}
+    <script src="/static/js/special/{{ title }}.js"></script>
+    {% endif %}
+
+</body>  
+    
+</html>
+
+
+    
