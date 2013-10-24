@@ -1,4 +1,5 @@
 //douteng
+
 require(['jquery'], function($){
     $(window).scroll(function(){
         var top = $(window).scrollTop();
@@ -11,5 +12,22 @@ require(['jquery'], function($){
 
     $(document).ready(function(){
         $(window).scrollTop(0);
-    })
+    });
 });
+
+//back-to-top
+
+require(['jquery'], function($){
+    $(window).scroll(function() {
+        if($(window).scrollTop()>600){
+            if($('.back-to-top').css('bottom') === '-20px'){
+                $('.back-to-top').animate({bottom:"29px"});
+            }
+        }else{
+            if($('.back-to-top').css('bottom') !== '-20px'){
+                $('.back-to-top').css({bottom:'-20px'});
+            }
+        }
+    });
+});
+

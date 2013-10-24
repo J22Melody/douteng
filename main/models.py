@@ -55,3 +55,5 @@ class Comment(models.Model):
     father = models.ForeignKey('self',blank=True,null=True)
     answer = models.ForeignKey(Answer,blank=True,null=True)
     question = models.ForeignKey(Question,blank=True,null=True)
+
+

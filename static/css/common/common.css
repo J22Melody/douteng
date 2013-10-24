@@ -309,16 +309,47 @@ a:hover, a:focus {
   width: 960px;
   position: relative;
   bottom: 20px;
-  border-top: 1px dotted #999;
-  border-bottom: 1px dotted #999;
+  border-top: 1px solid #ccc;
   height: 36px;
   line-height: 36px;
 }
-/* line 201, ../../sass/common/_scaffolding.scss */
+/* line 200, ../../sass/common/_scaffolding.scss */
 #footer #footer-left {
   float: left;
 }
-/* line 205, ../../sass/common/_scaffolding.scss */
+/* line 204, ../../sass/common/_scaffolding.scss */
 #footer #footer-right {
   float: right;
+}
+
+/* line 209, ../../sass/common/_scaffolding.scss */
+.back-to-top {
+  left: 1200px;
+  position: fixed;
+  bottom: -20px;
+  display: block;
+  z-index: 9999;
+}
+
+/* line 3, ../../sass/common/_components.scss */
+.container {
+  margin-bottom: 40px;
+}
+/* line 6, ../../sass/common/_components.scss */
+.container h1 {
+  font-size: 14px;
+  color: #666;
+  font-weight: 700;
+}
+
+/* line 15, ../../sass/common/_components.scss */
+.avatar {
+  display: inline-block;
+  width: 48px;
+  height: 48px;
+}
+/* line 20, ../../sass/common/_components.scss */
+.avatar img {
+  width: 100%;
+  height: 100%;
 }

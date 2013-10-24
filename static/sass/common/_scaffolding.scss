@@ -193,8 +193,7 @@ a {
     width: 960px;
     position: relative;
     bottom: 20px;
-    border-top: 1px dotted #999;
-    border-bottom: 1px dotted #999;
+    border-top: 1px solid #ccc;
     height: 36px;
     line-height: 36px;
 
@@ -205,4 +204,12 @@ a {
     #footer-right{
         @include fr;
     }
+}
+
+.back-to-top{
+    left: 1200px;
+    position: fixed;
+    bottom: -20px;
+    display: block;
+    z-index: 9999;
 }
