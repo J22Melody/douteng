@@ -7,7 +7,7 @@
     <h1>最新动态</h1>
     <ul class="items">
         {% for event in events %}
-        <li class="item" data-id="{{ event.father.id }}">
+        <li class="item">
             <a href="" class="avatar"><img src="/media/avatar/default.jpg"></a>
             <div class="question-main">
                 <div class="source">
@@ -55,15 +55,15 @@
                     <span class="time">{{ event.create_time|date:"Y年m月d日 H时i分" }}</span>
                     <span class="operation">
                         {% if event.kind == 0 or event.kind == 4 %}
-                            {% if not event.followed %}{{ event.follower_num }}个{% endif %}<a href="/follow/{% if event.followed %}del{% else %}new{% endif %}">{% if event.followed %}取消{% endif %}关注</a>
-                            {% if not event.collected %}{{ event.collector_num }}个{% endif %}<a href="/collect/{% if event.collected %}del{% else %}new{% endif %}">{% if event.collected %}取消{% endif %}收藏</a>
+                            <span>{% if not event.followed %}{{ event.follower_num }}个{% endif %}</span><a class="J_operation" href="/question/{{ event.father.id }}/{% if event.followed %}un{% endif %}follow/">{% if event.followed %}取消{% endif %}关注</a>
+                            <span>{% if not event.collected %}{{ event.collector_num }}个{% endif %}</span><a class="J_operation" href="/question/{{ event.father.id }}/{% if event.collected %}un{% endif %}collect/">{% if event.collected %}取消{% endif %}收藏</a>
                             {{ event.answer_num }}个<a href="">回答</a>
                             {{ event.comment_num }}条<a href="">评论</a>
                         {% endif %}
                         {% if event.kind == 1 or event.kind == 2 %}
-                            {% if not event.gooded %}{{ event.good_num }}个{% endif %}<a data-kind="0" href="/eva/{% if event.gooded %}del{% else %}new{% endif %}">{% if event.gooded %}取消{% endif %}赞同</a>
-                            {% if not event.baded %}{{ event.bad_num }}个{% endif %}<a data-kind="1" href="/eva/{% if event.baded %}del{% else %}new{% endif %}">{% if event.baded %}取消{% endif %}反对</a>
-                            {% if not event.sowhated %}{{ event.sowhat_num }}个{% endif %}<a data-kind="2" href="/eva/{% if event.sowhated %}del{% else %}new{% endif %}">{% if event.sowhated %}取消{% endif %}不屑</a>
+                            <span>{% if not event.gooded %}{{ event.good_num }}个{% endif %}</span><a href="/eva/{% if event.gooded %}{{ event.gooded }}/del{% else %}new{% endif %}">{% if event.gooded %}取消{% endif %}赞同</a>
+                            <span>{% if not event.baded %}{{ event.bad_num }}个{% endif %}</span><a href="/eva/{% if event.baded %}{{ event.baded }}/del{% else %}new{% endif %}">{% if event.baded %}取消{% endif %}反对</a>
+                            <span>{% if not event.sowhated %}{{ event.sowhat_num }}个{% endif %}</span><a href="/eva/{% if event.sowhated %}{{ event.sowhated }}/del{% else %}new{% endif %}">{% if event.sowhated %}取消{% endif %}不屑</a>
                             {{ event.comment_num }}条<a href="">评论</a>
                         {% endif %}
                     </span>

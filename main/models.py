@@ -78,6 +78,7 @@ class Event(models.Model):
     # 3：评论 评论者、评论
     # 4：关注（问题）关注者、问题
     # 5：关注（人）关注者、被关注者
+    # 6：关注（话题） 关注者、话题
     
     user = models.ForeignKey(User)  
     content_type = models.ForeignKey(ContentType)  
@@ -120,4 +121,10 @@ def question_follower_add(sender, instance, action, pk_set, **kwargs):
 def user_follower_add(sender, instance, action, pk_set, **kwargs):
     if action == "post_add":
         event = Event(kind=5,user=User.objects.get(id=list(pk_set)[0]),father=instance)
+        event.save()
+
+@receiver(m2m_changed, sender=Topic.follower.through)
+def topic_follower_add(sender, instance, action, pk_set, **kwargs):
+    if action == "post_add":
+        event = Event(kind=6,user=User.objects.get(id=list(pk_set)[0]),father=instance)
         event.save()

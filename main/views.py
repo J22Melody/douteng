@@ -3,28 +3,12 @@
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.contrib.auth import authenticate,login,logout 
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect,HttpResponse
+from django.utils import simplejson as json
+from django.core.exceptions import ObjectDoesNotExist
 
 from models import *
 from forms import *
-
-def login_view(request):   
-    if request.method == 'POST':
-        form = LoginForm(request.POST)
-        if form.is_valid():
-            username = form.cleaned_data["username"]   
-            password = form.cleaned_data["password"]   
-            user = authenticate(username=username, password=password) 
-            if user is not None and user.is_active:
-                login(request, user)
-            return HttpResponseRedirect("/")
-    else:
-        form = LoginForm() 
-    return render_to_response('main/login.html',context_instance=RequestContext(request,{'title':'login','form':form}))
-
-def logout_view(request):  
-    logout(request)  
-    return login_view(request)
 
 def index(request):
     events = Event.objects.filter(kind__in=[0,1,2,4])
@@ -54,11 +38,116 @@ def index(request):
             event.good_num = len(goods)
             event.bad_num = len(bads)
             event.sowhat_num = len(sowhats)
-            event.gooded = goods.filter(id=request.user.id).exists()
-            event.baded = bads.filter(id=request.user.id).exists()
-            event.sowhated = sowhats.filter(id=request.user.id).exists()
+            try:
+                event.gooded = goods.get(id=request.user.id).id
+            except ObjectDoesNotExist:
+                event.gooded = False
+            try:
+                event.baded = bads.get(id=request.user.id).id
+            except ObjectDoesNotExist:
+                event.baded = False
+            try:
+                event.sowhated = sowhats.get(id=request.user.id).id
+            except ObjectDoesNotExist:
+                event.sowhated = False
             event.comment_num = len(answer.comments.all())
     return render_to_response('main/index.html',context_instance=RequestContext(request,{'title':'index','events':events}))
 
+def topic(request):  
+    pass
+
+def login_view(request):   
+    if request.method == 'POST':
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data["username"]   
+            password = form.cleaned_data["password"]   
+            user = authenticate(username=username, password=password) 
+            if user is not None and user.is_active:
+                login(request, user)
+            return HttpResponseRedirect("/")
+    else:
+        form = LoginForm() 
+    return render_to_response('main/login.html',context_instance=RequestContext(request,{'title':'login','form':form}))
+
+def logout_view(request):  
+    logout(request)  
+    return login_view(request)
+
 def show_question(request,question_id):
     return render_to_response('main/show_question.html',context_instance=RequestContext(request,{'title':'show_question'}))
+
+def new_question(request):  
+    pass
+
+def edit_question(request,question_id):  
+    pass
+
+def del_question(request,question_id):  
+    pass
+
+def follow_question(request,question_id):  
+    question = Question.objects.get(id=question_id)
+    user = request.user
+    question.follower.add(user)
+    return HttpResponse(json.dumps({"success":True,"text":"取消关注","href":"/question/"+question_id+"/unfollow/","num":""}),mimetype="application/json")
+
+def unfollow_question(request,question_id):  
+    question = Question.objects.get(id=question_id)
+    user = request.user
+    question.follower.remove(user)
+    return HttpResponse(json.dumps({"success":True,"text":"关注","href":"/question/"+question_id+"/follow/","num":str(len(question.follower.all()))+"个"}),mimetype="application/json")
+
+def collect_question(request,question_id):  
+    question = Question.objects.get(id=question_id)
+    user = request.user
+    question.collector.add(user)
+    return HttpResponse(json.dumps({"success":True,"text":"取消收藏","href":"/question/"+question_id+"/uncollect/","num":""}),mimetype="application/json")
+
+def uncollect_question(request,question_id):  
+    question = Question.objects.get(id=question_id)
+    user = request.user
+    question.collector.remove(user)
+    return HttpResponse(json.dumps({"success":True,"text":"收藏","href":"/question/"+question_id+"/collect/","num":str(len(question.collector.all()))+"个"}),mimetype="application/json")
+
+def show_people(request):  
+    pass
+
+def new_people(request):  
+    pass
+
+def edit_people(request):  
+    pass
+
+def del_people(request):  
+    pass
+
+def follow_people(request):  
+    pass
+
+def unfollow_people(request):  
+    pass
+
+def show_topic(request):  
+    pass
+
+def new_topic(request):  
+    pass
+
+def edit_topic(request):  
+    pass
+
+def del_topic(request):  
+    pass
+
+def follow_topic(request):  
+    pass
+
+def unfollow_topic(request):  
+    pass
+
+def new_eva(request):  
+    pass
+
+def del_eva(request):  
+    pass
