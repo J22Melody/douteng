@@ -6,257 +6,71 @@
 <div class="container">
     <h1>最新动态</h1>
     <ul class="items">
-        <li class="item">
+        {% for event in events %}
+        <li class="item" data-id="{{ event.father.id }}">
             <a href="" class="avatar"><img src="/media/avatar/default.jpg"></a>
             <div class="question-main">
                 <div class="source">
-                    <a href="" class="user">Melody</a>赞同<a href="" class="answerer">阿北</a>的回答
+                    <a href="" class="user">{{ event.user.username }}</a>
+                    {% ifequal event.kind 0 %}
+                        提出了问题
+                    {% endifequal %}
+                    {% ifequal event.kind 1 %}
+                        回答了该问题
+                    {% endifequal %}
+                    {% ifequal event.kind 2 %}
+                        {% ifequal event.father.kind 0 %}
+                            赞同<a href="" class="answerer">{{ event.father.answer.answerer }}</a>的回答
+                        {% endifequal %}
+                        {% ifequal event.father.kind 1 %}
+                            反对<a href="" class="answerer">{{ event.father.answer.answerer }}</a>的回答
+                        {% endifequal %}
+                        {% ifequal event.father.kind 2 %}
+                            对<a href="" class="answerer">{{ event.father.answer.answerer }}</a>的回答不屑一顾
+                        {% endifequal %}
+                    {% endifequal %}
+                    {% ifequal event.kind 4 %}
+                        关注该问题
+                    {% endifequal %}
+                    :
                 </div>
                 <div class="content">
-                    <h2><a href="">除了恐惧和欲望，还有什么可以激励自己长期地努力？</a></h2>
+                    <h2><a href="">{{ event.title }}</a></h2>
+                    {% if event.content|length > 200 %}
                     <p class="answer none">
-                        谢邀。什么在驱动着我们前进？如果说只有恐惧和欲望，那其实就是说，胡萝卜和大棒政策，对任何人都是有效合理的。嗯，驴就是这么前进的。
-                        但能驱动我们前进的东西，不仅来自于低级的动物性，也来自于高贵的人性。人，毕竟还是和驴不同。
-                        关于驱动我们前进的动机，心理学提供了很多视角。比如这三种就很典型：
-                        第一种视角，是内在动机和外在动机的划分。外在动机论相信，驱动我们前进的，是看得见的得到和失去。加薪还是减薪，有房还是没房，位高权重还是人轻言微，娶几个老婆还是娶不到老婆，一想到这些就让人热血沸腾或者心生恐惧：为了新中国，拼了！
-                        内在动机论则相信，指引我们前进的，是一种内在感觉，读书带来的安详，学习新知识带来的成长，和朋友的谈话所产生的被理解感，帮助他人所产生的意义感，都和得到或失去的恐惧和欲望没有直接关系，却实实在在驱动着我们前进。
+                        {{ event.content }}
                         <a class="packUp">收起</a>
                     </p>
                     <p class="summary">
-                        谢邀。什么在驱动着我们前进？如果说只有恐惧和欲望，那其实就是说，胡萝卜和大棒政策，对任何人都是有效合理的。嗯，驴就是这么前进的。 但能驱动我们前进的东西，不仅来自于低级的动物性，也来自于高贵的人性。人，毕竟还是和驴不同。 关于驱动我们前进的动… 
+                        {{ event.content|slice:"200" }}{% if value|length > 200 %}...{% endif %} 
                         <a class="showAll">显示全部</a>
                     </p>
+                    {% else %}
+                    <p class="answer">
+                        {{ event.content }}
+                    </p>
+                    {% endif %}
                 </div>
                 <div class="addtion">
-                    <span class="time">2013-10-23 13:12:54</span>
+                    <span class="time">{{ event.create_time|date:"Y年m月d日 H时i分" }}</span>
                     <span class="operation">
-                        <a href="">关注</a>
-                        <a href="">收藏</a>
-                        <a href="">评论</a>
-                        <a href="">7个回答</a>
-                        <a href="">8个赞同</a>
-                        <a href="">9个反对</a>
-                        <a href="">8个不屑一顾</a>
+                        {% if event.kind == 0 or event.kind == 4 %}
+                            {% if not event.followed %}{{ event.follower_num }}个{% endif %}<a href="/follow/{% if event.followed %}del{% else %}new{% endif %}">{% if event.followed %}取消{% endif %}关注</a>
+                            {% if not event.collected %}{{ event.collector_num }}个{% endif %}<a href="/collect/{% if event.collected %}del{% else %}new{% endif %}">{% if event.collected %}取消{% endif %}收藏</a>
+                            {{ event.answer_num }}个<a href="">回答</a>
+                            {{ event.comment_num }}条<a href="">评论</a>
+                        {% endif %}
+                        {% if event.kind == 1 or event.kind == 2 %}
+                            {% if not event.gooded %}{{ event.good_num }}个{% endif %}<a data-kind="0" href="/eva/{% if event.gooded %}del{% else %}new{% endif %}">{% if event.gooded %}取消{% endif %}赞同</a>
+                            {% if not event.baded %}{{ event.bad_num }}个{% endif %}<a data-kind="1" href="/eva/{% if event.baded %}del{% else %}new{% endif %}">{% if event.baded %}取消{% endif %}反对</a>
+                            {% if not event.sowhated %}{{ event.sowhat_num }}个{% endif %}<a data-kind="2" href="/eva/{% if event.sowhated %}del{% else %}new{% endif %}">{% if event.sowhated %}取消{% endif %}不屑</a>
+                            {{ event.comment_num }}条<a href="">评论</a>
+                        {% endif %}
                     </span>
                 </div>
             </div>
         </li>
-        <li class="item">
-            <a href="" class="avatar"><img src="/media/avatar/default.jpg"></a>
-            <div class="question-main">
-                <div class="source">
-                    <a class="user">Melody</a><span>赞同该问题</span>
-                </div>
-                <div class="content">
-                    <h2><a href="">除了恐惧和欲望，还有什么可以激励自己长期地努力？</a></h2>
-                    <p class="answerer"><a href="">阿北</a>，豆瓣创始人</p>
-                    <p class="answer none">
-                        谢邀。什么在驱动着我们前进？如果说只有恐惧和欲望，那其实就是说，胡萝卜和大棒政策，对任何人都是有效合理的。嗯，驴就是这么前进的。
-                        但能驱动我们前进的东西，不仅来自于低级的动物性，也来自于高贵的人性。人，毕竟还是和驴不同。
-                        关于驱动我们前进的动机，心理学提供了很多视角。比如这三种就很典型：
-                        第一种视角，是内在动机和外在动机的划分。外在动机论相信，驱动我们前进的，是看得见的得到和失去。加薪还是减薪，有房还是没房，位高权重还是人轻言微，娶几个老婆还是娶不到老婆，一想到这些就让人热血沸腾或者心生恐惧：为了新中国，拼了！
-                        内在动机论则相信，指引我们前进的，是一种内在感觉，读书带来的安详，学习新知识带来的成长，和朋友的谈话所产生的被理解感，帮助他人所产生的意义感，都和得到或失去的恐惧和欲望没有直接关系，却实实在在驱动着我们前进。
-                    </p>
-                    <p class="summary">
-                        谢邀。什么在驱动着我们前进？如果说只有恐惧和欲望，那其实就是说，胡萝卜和大棒政策，对任何人都是有效合理的。嗯，驴就是这么前进的。 但能驱动我们前进的东西，不仅来自于低级的动物性，也来自于高贵的人性。人，毕竟还是和驴不同。 关于驱动我们前进的动… 
-                        <a href="">显示全部</a>
-                    </p>
-                </div>
-                <div class="addtion">
-                    <span class="time">2013-10-23 13:12:54</span>
-                    <span class="operation"><a href="">关注问题</a><a href="">收藏问题</a><a href="">添加评论</a><a href="">7个回答</a></span>
-                </div>
-            </div>
-        </li>
-        <li class="item">
-            <a href="" class="avatar"><img src="/media/avatar/default.jpg"></a>
-            <div class="question-main">
-                <div class="source">
-                    <a class="user">Melody</a><span>赞同该问题</span>
-                </div>
-                <div class="content">
-                    <h2><a href="">除了恐惧和欲望，还有什么可以激励自己长期地努力？</a></h2>
-                    <p class="answerer"><a href="">阿北</a>，豆瓣创始人</p>
-                    <p class="answer none">
-                        谢邀。什么在驱动着我们前进？如果说只有恐惧和欲望，那其实就是说，胡萝卜和大棒政策，对任何人都是有效合理的。嗯，驴就是这么前进的。
-                        但能驱动我们前进的东西，不仅来自于低级的动物性，也来自于高贵的人性。人，毕竟还是和驴不同。
-                        关于驱动我们前进的动机，心理学提供了很多视角。比如这三种就很典型：
-                        第一种视角，是内在动机和外在动机的划分。外在动机论相信，驱动我们前进的，是看得见的得到和失去。加薪还是减薪，有房还是没房，位高权重还是人轻言微，娶几个老婆还是娶不到老婆，一想到这些就让人热血沸腾或者心生恐惧：为了新中国，拼了！
-                        内在动机论则相信，指引我们前进的，是一种内在感觉，读书带来的安详，学习新知识带来的成长，和朋友的谈话所产生的被理解感，帮助他人所产生的意义感，都和得到或失去的恐惧和欲望没有直接关系，却实实在在驱动着我们前进。
-                    </p>
-                    <p class="summary">
-                        谢邀。什么在驱动着我们前进？如果说只有恐惧和欲望，那其实就是说，胡萝卜和大棒政策，对任何人都是有效合理的。嗯，驴就是这么前进的。 但能驱动我们前进的东西，不仅来自于低级的动物性，也来自于高贵的人性。人，毕竟还是和驴不同。 关于驱动我们前进的动… 
-                        <a href="">显示全部</a>
-                    </p>
-                </div>
-                <div class="addtion">
-                    <span class="time">2013-10-23 13:12:54</span>
-                    <span class="operation"><a href="">关注问题</a><a href="">收藏问题</a><a href="">添加评论</a><a href="">7个回答</a></span>
-                </div>
-            </div>
-        </li>
-        <li class="item">
-            <a href="" class="avatar"><img src="/media/avatar/default.jpg"></a>
-            <div class="question-main">
-                <div class="source">
-                    <a class="user">Melody</a><span>赞同该问题</span>
-                </div>
-                <div class="content">
-                    <h2><a href="">除了恐惧和欲望，还有什么可以激励自己长期地努力？</a></h2>
-                    <p class="answerer"><a href="">阿北</a>，豆瓣创始人</p>
-                    <p class="answer none">
-                        谢邀。什么在驱动着我们前进？如果说只有恐惧和欲望，那其实就是说，胡萝卜和大棒政策，对任何人都是有效合理的。嗯，驴就是这么前进的。
-                        但能驱动我们前进的东西，不仅来自于低级的动物性，也来自于高贵的人性。人，毕竟还是和驴不同。
-                        关于驱动我们前进的动机，心理学提供了很多视角。比如这三种就很典型：
-                        第一种视角，是内在动机和外在动机的划分。外在动机论相信，驱动我们前进的，是看得见的得到和失去。加薪还是减薪，有房还是没房，位高权重还是人轻言微，娶几个老婆还是娶不到老婆，一想到这些就让人热血沸腾或者心生恐惧：为了新中国，拼了！
-                        内在动机论则相信，指引我们前进的，是一种内在感觉，读书带来的安详，学习新知识带来的成长，和朋友的谈话所产生的被理解感，帮助他人所产生的意义感，都和得到或失去的恐惧和欲望没有直接关系，却实实在在驱动着我们前进。
-                    </p>
-                    <p class="summary">
-                        谢邀。什么在驱动着我们前进？如果说只有恐惧和欲望，那其实就是说，胡萝卜和大棒政策，对任何人都是有效合理的。嗯，驴就是这么前进的。 但能驱动我们前进的东西，不仅来自于低级的动物性，也来自于高贵的人性。人，毕竟还是和驴不同。 关于驱动我们前进的动… 
-                        <a href="">显示全部</a>
-                    </p>
-                </div>
-                <div class="addtion">
-                    <span class="time">2013-10-23 13:12:54</span>
-                    <span class="operation"><a href="">关注问题</a><a href="">收藏问题</a><a href="">添加评论</a><a href="">7个回答</a></span>
-                </div>
-            </div>
-        </li>
-        <li class="item">
-            <a href="" class="avatar"><img src="/media/avatar/default.jpg"></a>
-            <div class="question-main">
-                <div class="source">
-                    <a class="user">Melody</a><span>赞同该问题</span>
-                </div>
-                <div class="content">
-                    <h2><a href="">除了恐惧和欲望，还有什么可以激励自己长期地努力？</a></h2>
-                    <p class="answerer"><a href="">阿北</a>，豆瓣创始人</p>
-                    <p class="answer none">
-                        谢邀。什么在驱动着我们前进？如果说只有恐惧和欲望，那其实就是说，胡萝卜和大棒政策，对任何人都是有效合理的。嗯，驴就是这么前进的。
-                        但能驱动我们前进的东西，不仅来自于低级的动物性，也来自于高贵的人性。人，毕竟还是和驴不同。
-                        关于驱动我们前进的动机，心理学提供了很多视角。比如这三种就很典型：
-                        第一种视角，是内在动机和外在动机的划分。外在动机论相信，驱动我们前进的，是看得见的得到和失去。加薪还是减薪，有房还是没房，位高权重还是人轻言微，娶几个老婆还是娶不到老婆，一想到这些就让人热血沸腾或者心生恐惧：为了新中国，拼了！
-                        内在动机论则相信，指引我们前进的，是一种内在感觉，读书带来的安详，学习新知识带来的成长，和朋友的谈话所产生的被理解感，帮助他人所产生的意义感，都和得到或失去的恐惧和欲望没有直接关系，却实实在在驱动着我们前进。
-                    </p>
-                    <p class="summary">
-                        谢邀。什么在驱动着我们前进？如果说只有恐惧和欲望，那其实就是说，胡萝卜和大棒政策，对任何人都是有效合理的。嗯，驴就是这么前进的。 但能驱动我们前进的东西，不仅来自于低级的动物性，也来自于高贵的人性。人，毕竟还是和驴不同。 关于驱动我们前进的动… 
-                        <a href="">显示全部</a>
-                    </p>
-                </div>
-                <div class="addtion">
-                    <span class="time">2013-10-23 13:12:54</span>
-                    <span class="operation"><a href="">关注问题</a><a href="">收藏问题</a><a href="">添加评论</a><a href="">7个回答</a></span>
-                </div>
-            </div>
-        </li>
-        <li class="item">
-            <a href="" class="avatar"><img src="/media/avatar/default.jpg"></a>
-            <div class="question-main">
-                <div class="source">
-                    <a class="user">Melody</a><span>赞同该问题</span>
-                </div>
-                <div class="content">
-                    <h2><a href="">除了恐惧和欲望，还有什么可以激励自己长期地努力？</a></h2>
-                    <p class="answerer"><a href="">阿北</a>，豆瓣创始人</p>
-                    <p class="answer none">
-                        谢邀。什么在驱动着我们前进？如果说只有恐惧和欲望，那其实就是说，胡萝卜和大棒政策，对任何人都是有效合理的。嗯，驴就是这么前进的。
-                        但能驱动我们前进的东西，不仅来自于低级的动物性，也来自于高贵的人性。人，毕竟还是和驴不同。
-                        关于驱动我们前进的动机，心理学提供了很多视角。比如这三种就很典型：
-                        第一种视角，是内在动机和外在动机的划分。外在动机论相信，驱动我们前进的，是看得见的得到和失去。加薪还是减薪，有房还是没房，位高权重还是人轻言微，娶几个老婆还是娶不到老婆，一想到这些就让人热血沸腾或者心生恐惧：为了新中国，拼了！
-                        内在动机论则相信，指引我们前进的，是一种内在感觉，读书带来的安详，学习新知识带来的成长，和朋友的谈话所产生的被理解感，帮助他人所产生的意义感，都和得到或失去的恐惧和欲望没有直接关系，却实实在在驱动着我们前进。
-                    </p>
-                    <p class="summary">
-                        谢邀。什么在驱动着我们前进？如果说只有恐惧和欲望，那其实就是说，胡萝卜和大棒政策，对任何人都是有效合理的。嗯，驴就是这么前进的。 但能驱动我们前进的东西，不仅来自于低级的动物性，也来自于高贵的人性。人，毕竟还是和驴不同。 关于驱动我们前进的动… 
-                        <a href="">显示全部</a>
-                    </p>
-                </div>
-                <div class="addtion">
-                    <span class="time">2013-10-23 13:12:54</span>
-                    <span class="operation"><a href="">关注问题</a><a href="">收藏问题</a><a href="">添加评论</a><a href="">7个回答</a></span>
-                </div>
-            </div>
-        </li>
-        <li class="item">
-            <a href="" class="avatar"><img src="/media/avatar/default.jpg"></a>
-            <div class="question-main">
-                <div class="source">
-                    <a class="user">Melody</a><span>赞同该问题</span>
-                </div>
-                <div class="content">
-                    <h2><a href="">除了恐惧和欲望，还有什么可以激励自己长期地努力？</a></h2>
-                    <p class="answerer"><a href="">阿北</a>，豆瓣创始人</p>
-                    <p class="answer none">
-                        谢邀。什么在驱动着我们前进？如果说只有恐惧和欲望，那其实就是说，胡萝卜和大棒政策，对任何人都是有效合理的。嗯，驴就是这么前进的。
-                        但能驱动我们前进的东西，不仅来自于低级的动物性，也来自于高贵的人性。人，毕竟还是和驴不同。
-                        关于驱动我们前进的动机，心理学提供了很多视角。比如这三种就很典型：
-                        第一种视角，是内在动机和外在动机的划分。外在动机论相信，驱动我们前进的，是看得见的得到和失去。加薪还是减薪，有房还是没房，位高权重还是人轻言微，娶几个老婆还是娶不到老婆，一想到这些就让人热血沸腾或者心生恐惧：为了新中国，拼了！
-                        内在动机论则相信，指引我们前进的，是一种内在感觉，读书带来的安详，学习新知识带来的成长，和朋友的谈话所产生的被理解感，帮助他人所产生的意义感，都和得到或失去的恐惧和欲望没有直接关系，却实实在在驱动着我们前进。
-                    </p>
-                    <p class="summary">
-                        谢邀。什么在驱动着我们前进？如果说只有恐惧和欲望，那其实就是说，胡萝卜和大棒政策，对任何人都是有效合理的。嗯，驴就是这么前进的。 但能驱动我们前进的东西，不仅来自于低级的动物性，也来自于高贵的人性。人，毕竟还是和驴不同。 关于驱动我们前进的动… 
-                        <a href="">显示全部</a>
-                    </p>
-                </div>
-                <div class="addtion">
-                    <span class="time">2013-10-23 13:12:54</span>
-                    <span class="operation"><a href="">关注问题</a><a href="">收藏问题</a><a href="">添加评论</a><a href="">7个回答</a></span>
-                </div>
-            </div>
-        </li>
-        <li class="item">
-            <a href="" class="avatar"><img src="/media/avatar/default.jpg"></a>
-            <div class="question-main">
-                <div class="source">
-                    <a class="user">Melody</a><span>赞同该问题</span>
-                </div>
-                <div class="content">
-                    <h2><a href="">除了恐惧和欲望，还有什么可以激励自己长期地努力？</a></h2>
-                    <p class="answerer"><a href="">阿北</a>，豆瓣创始人</p>
-                    <p class="answer none">
-                        谢邀。什么在驱动着我们前进？如果说只有恐惧和欲望，那其实就是说，胡萝卜和大棒政策，对任何人都是有效合理的。嗯，驴就是这么前进的。
-                        但能驱动我们前进的东西，不仅来自于低级的动物性，也来自于高贵的人性。人，毕竟还是和驴不同。
-                        关于驱动我们前进的动机，心理学提供了很多视角。比如这三种就很典型：
-                        第一种视角，是内在动机和外在动机的划分。外在动机论相信，驱动我们前进的，是看得见的得到和失去。加薪还是减薪，有房还是没房，位高权重还是人轻言微，娶几个老婆还是娶不到老婆，一想到这些就让人热血沸腾或者心生恐惧：为了新中国，拼了！
-                        内在动机论则相信，指引我们前进的，是一种内在感觉，读书带来的安详，学习新知识带来的成长，和朋友的谈话所产生的被理解感，帮助他人所产生的意义感，都和得到或失去的恐惧和欲望没有直接关系，却实实在在驱动着我们前进。
-                    </p>
-                    <p class="summary">
-                        谢邀。什么在驱动着我们前进？如果说只有恐惧和欲望，那其实就是说，胡萝卜和大棒政策，对任何人都是有效合理的。嗯，驴就是这么前进的。 但能驱动我们前进的东西，不仅来自于低级的动物性，也来自于高贵的人性。人，毕竟还是和驴不同。 关于驱动我们前进的动… 
-                        <a href="">显示全部</a>
-                    </p>
-                </div>
-                <div class="addtion">
-                    <span class="time">2013-10-23 13:12:54</span>
-                    <span class="operation"><a href="">关注问题</a><a href="">收藏问题</a><a href="">添加评论</a><a href="">7个回答</a></span>
-                </div>
-            </div>
-        </li>
-        <li class="item">
-            <a href="" class="avatar"><img src="/media/avatar/default.jpg"></a>
-            <div class="question-main">
-                <div class="source">
-                    <a class="user">Melody</a><span>赞同该问题</span>
-                </div>
-                <div class="content">
-                    <h2><a href="">除了恐惧和欲望，还有什么可以激励自己长期地努力？</a></h2>
-                    <p class="answerer"><a href="">阿北</a>，豆瓣创始人</p>
-                    <p class="answer none">
-                        谢邀。什么在驱动着我们前进？如果说只有恐惧和欲望，那其实就是说，胡萝卜和大棒政策，对任何人都是有效合理的。嗯，驴就是这么前进的。
-                        但能驱动我们前进的东西，不仅来自于低级的动物性，也来自于高贵的人性。人，毕竟还是和驴不同。
-                        关于驱动我们前进的动机，心理学提供了很多视角。比如这三种就很典型：
-                        第一种视角，是内在动机和外在动机的划分。外在动机论相信，驱动我们前进的，是看得见的得到和失去。加薪还是减薪，有房还是没房，位高权重还是人轻言微，娶几个老婆还是娶不到老婆，一想到这些就让人热血沸腾或者心生恐惧：为了新中国，拼了！
-                        内在动机论则相信，指引我们前进的，是一种内在感觉，读书带来的安详，学习新知识带来的成长，和朋友的谈话所产生的被理解感，帮助他人所产生的意义感，都和得到或失去的恐惧和欲望没有直接关系，却实实在在驱动着我们前进。
-                    </p>
-                    <p class="summary">
-                        谢邀。什么在驱动着我们前进？如果说只有恐惧和欲望，那其实就是说，胡萝卜和大棒政策，对任何人都是有效合理的。嗯，驴就是这么前进的。 但能驱动我们前进的东西，不仅来自于低级的动物性，也来自于高贵的人性。人，毕竟还是和驴不同。 关于驱动我们前进的动… 
-                        <a href="">显示全部</a>
-                    </p>
-                </div>
-                <div class="addtion">
-                    <span class="time">2013-10-23 13:12:54</span>
-                    <span class="operation"><a href="">关注问题</a><a href="">收藏问题</a><a href="">添加评论</a><a href="">7个回答</a></span>
-                </div>
-            </div>
-        </li>
+        {% endfor %}
     </ul>
 </div>
 {% endblock %}

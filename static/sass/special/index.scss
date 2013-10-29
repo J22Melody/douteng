@@ -41,7 +41,7 @@
                 margin-top: 14px;
                 margin-left: 38px;
                 padding-bottom: 24px;
-                border-bottom: 1px solid #ccc;
+                border-bottom: 1px solid #ddd;
 
                 .time{
                     color: #999;
@@ -49,16 +49,22 @@
                 }
 
                 .operation{
+                    color: #37a;
+
                     a{
-                        color: #7094b7;
                         margin-right: 6px;
 
                         &:hover{
-                            background: #7094b7;
                             color: #fff;
                         }
                     }
                 }
+            }
+        }
+
+        &:last-child{
+            .addtion{
+                border-bottom: none;
             }
         }
     }

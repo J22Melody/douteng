@@ -4,15 +4,14 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.contenttypes import generic
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save,m2m_changed
 from django.dispatch import receiver
-from signals import *
 
 class Commentable(models.Model):
     class Meta:
         abstract = True
 
-    comments = generic.GenericRelation('Comment',content_type_field='conten_type',object_id_field='obj_id')
+    comments = generic.GenericRelation('Comment',content_type_field='content_type',object_id_field='obj_id')
 
 class Profile(models.Model):
     MAN = 0
@@ -27,19 +26,21 @@ class Profile(models.Model):
     score = models.IntegerField(default=100)
     follower = models.ManyToManyField(User,related_name="followed")
 
-class Tag(models.Model):
-    title = models.CharField(max_length=10)
+class Topic(models.Model):
+    title = models.CharField(max_length=20)
     description = models.TextField()
+    creater = models.ForeignKey(User,related_name="topic_ed")
+    follower = models.ManyToManyField(User,related_name="topic_followed",blank=True,null=True)
     father = models.ForeignKey('self',blank=True,null=True)
 
 class Question(Commentable):
-    title = models.CharField(max_length=20)
+    title = models.CharField(max_length=50)
     content = models.TextField()
     score = models.IntegerField()
     asker = models.ForeignKey(User,related_name="question_asked")
     follower = models.ManyToManyField(User,related_name="question_followed",blank=True,null=True)
     collector = models.ManyToManyField(User,related_name="question_collected",blank=True,null=True)
-    tag = models.ManyToManyField(Tag,blank=True,null=True)
+    topic = models.ManyToManyField(Topic,blank=True,null=True)
     create_time = models.DateTimeField(auto_now_add=True)
     update_time = models.DateTimeField(auto_now=True)
 
@@ -47,6 +48,7 @@ class Answer(Commentable):
     content = models.TextField()
     score = models.IntegerField(default=0)
     answerer = models.ForeignKey(User)
+    question = models.ForeignKey(Question)
     create_time = models.DateTimeField(auto_now_add=True)
     update_time = models.DateTimeField(auto_now=True)
     
@@ -64,7 +66,7 @@ class Comment(Commentable):
     user = models.ForeignKey(User)
     content = models.TextField()
     create_time = models.DateTimeField()
-    content_Type = models.ForeignKey(ContentType)
+    content_type = models.ForeignKey(ContentType)
     obj_id = models.PositiveIntegerField()
     father = generic.GenericForeignKey('content_type','obj_id')
 
@@ -108,12 +110,14 @@ def comment_post_save(sender, instance, created, **kwargs):
         event = Event(kind=3,user=instance.user,father=instance)
         event.save()
 
-@receiver(question_followed)
-def question_followed_rec(follower,followed, **kwargs):
-    event = Event(kind=4,user=follower,father=followed)
-    event.save()
+@receiver(m2m_changed, sender=Question.follower.through)
+def question_follower_add(sender, instance, action, pk_set, **kwargs):
+    if action == "post_add":
+        event = Event(kind=4,user=User.objects.get(id=list(pk_set)[0]),father=instance)
+        event.save()
 
-@receiver(user_followed)
-def user_followed_rec(follower,followed, **kwargs):
-    event = Event(kind=5,user=follower,father=followed)
-    event.save()
+@receiver(m2m_changed, sender=Profile.follower.through)
+def user_follower_add(sender, instance, action, pk_set, **kwargs):
+    if action == "post_add":
+        event = Event(kind=5,user=User.objects.get(id=list(pk_set)[0]),father=instance)
+        event.save()

@@ -10,7 +10,11 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
+
     url(r'^$', index),
+    url(r'^login/$', login_view),
+    url(r'^logout/$', logout_view),
+
     url(r'^question/(?P<question_id>\d+)/$', show_question), 
 )
 
