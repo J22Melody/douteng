@@ -138,20 +138,22 @@ input,
 select[multiple],
 textarea {
   background-image: none;
+  outline: none;
 }
 
-/* line 48, ../../sass/common/_scaffolding.scss */
+/* line 49, ../../sass/common/_scaffolding.scss */
 a {
   color: #3377aa;
   text-decoration: none;
+  cursor: pointer;
 }
-/* line 53, ../../sass/common/_scaffolding.scss */
+/* line 55, ../../sass/common/_scaffolding.scss */
 a:hover, a:focus {
   color: white;
   background: #3377aa;
 }
 
-/* line 61, ../../sass/common/_scaffolding.scss */
+/* line 63, ../../sass/common/_scaffolding.scss */
 #header {
   width: 100%;
   height: 60px;
@@ -160,13 +162,13 @@ a:hover, a:focus {
   z-index: 20;
   top: 0;
 }
-/* line 69, ../../sass/common/_scaffolding.scss */
+/* line 71, ../../sass/common/_scaffolding.scss */
 #header #inner-header {
   margin: 0 auto;
   width: 960px;
   position: relative;
 }
-/* line 74, ../../sass/common/_scaffolding.scss */
+/* line 76, ../../sass/common/_scaffolding.scss */
 #header #inner-header #logo {
   float: left;
   display: block;
@@ -175,33 +177,33 @@ a:hover, a:focus {
   margin-top: 12px;
   background: url(/static/images/logo.png) no-repeat center;
 }
-/* line 83, ../../sass/common/_scaffolding.scss */
+/* line 85, ../../sass/common/_scaffolding.scss */
 #header #inner-header #nav {
   float: left;
   margin-left: 40px;
   margin-top: 22px;
 }
-/* line 88, ../../sass/common/_scaffolding.scss */
+/* line 90, ../../sass/common/_scaffolding.scss */
 #header #inner-header #nav a {
   color: #072;
   font-size: 14px;
   margin: 0 16px;
 }
-/* line 93, ../../sass/common/_scaffolding.scss */
+/* line 95, ../../sass/common/_scaffolding.scss */
 #header #inner-header #nav a:hover {
   background: #072;
   color: #fff;
 }
-/* line 100, ../../sass/common/_scaffolding.scss */
+/* line 102, ../../sass/common/_scaffolding.scss */
 #header #inner-header #info {
   float: right;
   margin-top: 24px;
 }
-/* line 104, ../../sass/common/_scaffolding.scss */
+/* line 106, ../../sass/common/_scaffolding.scss */
 #header #inner-header #info a {
   margin-left: 8px;
 }
-/* line 110, ../../sass/common/_scaffolding.scss */
+/* line 112, ../../sass/common/_scaffolding.scss */
 #header #search-wrapper {
   margin: 0 auto;
   position: relative;
@@ -219,7 +221,7 @@ a:hover, a:focus {
   -moz-box-shadow: 0, 1px, 4px, rgba(0, 0, 0, 0.4);
   box-shadow: 0, 1px, 4px, rgba(0, 0, 0, 0.4);
 }
-/* line 121, ../../sass/common/_scaffolding.scss */
+/* line 123, ../../sass/common/_scaffolding.scss */
 #header #search-wrapper #douteng {
   position: absolute;
   top: -95px;
@@ -229,7 +231,7 @@ a:hover, a:focus {
   z-index: 1000;
   background: url(/static/images/douteng.png) repeat-y center;
 }
-/* line 131, ../../sass/common/_scaffolding.scss */
+/* line 133, ../../sass/common/_scaffolding.scss */
 #header #search-wrapper #search {
   background: #fff;
   width: 384px;
@@ -246,7 +248,7 @@ a:hover, a:focus {
   -o-border-radius: 16px;
   border-radius: 16px;
 }
-/* line 143, ../../sass/common/_scaffolding.scss */
+/* line 145, ../../sass/common/_scaffolding.scss */
 #header #search-wrapper #search input[type=text] {
   outline: none;
   border: none;
@@ -260,7 +262,7 @@ a:hover, a:focus {
   top: 2px;
   left: -4px;
 }
-/* line 157, ../../sass/common/_scaffolding.scss */
+/* line 159, ../../sass/common/_scaffolding.scss */
 #header #search-wrapper #search input[type=submit] {
   border: none;
   width: 24px;
@@ -272,7 +274,7 @@ a:hover, a:focus {
   background: url("/static/images/search.png") no-repeat center;
 }
 
-/* line 171, ../../sass/common/_scaffolding.scss */
+/* line 173, ../../sass/common/_scaffolding.scss */
 #main {
   margin: 0 auto;
   width: 960px;
@@ -292,18 +294,18 @@ a:hover, a:focus {
 #main:after {
   clear: both;
 }
-/* line 180, ../../sass/common/_scaffolding.scss */
+/* line 182, ../../sass/common/_scaffolding.scss */
 #main #main-left {
   float: left;
   width: 640px;
 }
-/* line 185, ../../sass/common/_scaffolding.scss */
+/* line 187, ../../sass/common/_scaffolding.scss */
 #main #main-right {
   float: right;
   width: 260px;
 }
 
-/* line 191, ../../sass/common/_scaffolding.scss */
+/* line 193, ../../sass/common/_scaffolding.scss */
 #footer {
   margin: 0 auto;
   width: 960px;
@@ -313,16 +315,16 @@ a:hover, a:focus {
   height: 36px;
   line-height: 36px;
 }
-/* line 200, ../../sass/common/_scaffolding.scss */
+/* line 202, ../../sass/common/_scaffolding.scss */
 #footer #footer-left {
   float: left;
 }
-/* line 204, ../../sass/common/_scaffolding.scss */
+/* line 206, ../../sass/common/_scaffolding.scss */
 #footer #footer-right {
   float: right;
 }
 
-/* line 209, ../../sass/common/_scaffolding.scss */
+/* line 211, ../../sass/common/_scaffolding.scss */
 .back-to-top {
   left: 1200px;
   position: fixed;
@@ -349,6 +351,11 @@ a:hover, a:focus {
   height: 48px;
 }
 /* line 20, ../../sass/common/_components.scss */
+.avatar.small {
+  width: 26px;
+  height: 26px;
+}
+/* line 25, ../../sass/common/_components.scss */
 .avatar img {
   width: 100%;
   height: 100%;

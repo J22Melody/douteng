@@ -6,6 +6,9 @@ from django.contrib.auth import authenticate,login,logout
 from django.http import HttpResponseRedirect,HttpResponse
 from django.utils import simplejson as json
 from django.core.exceptions import ObjectDoesNotExist
+from django.db import transaction
+from django.contrib.auth.decorators import login_required  
+from lib import *
 
 from models import *
 from forms import *
@@ -25,6 +28,8 @@ def index(request):
             event.collected = collectors.filter(id=request.user.id).exists()
             event.answer_num = len(question.answer_set.all())
             event.comment_num = len(question.comments.all())
+            event.question = question
+            event.father.type = 0
         elif event.kind == 1 or event.kind == 2:
             if event.kind == 1:
                 answer = event.father
@@ -39,18 +44,21 @@ def index(request):
             event.bad_num = len(bads)
             event.sowhat_num = len(sowhats)
             try:
-                event.gooded = goods.get(id=request.user.id).id
+                event.gooded = goods.get(user_id=request.user.id).id
             except ObjectDoesNotExist:
                 event.gooded = False
             try:
-                event.baded = bads.get(id=request.user.id).id
+                event.baded = bads.get(user_id=request.user.id).id
             except ObjectDoesNotExist:
                 event.baded = False
             try:
-                event.sowhated = sowhats.get(id=request.user.id).id
+                event.sowhated = sowhats.get(user_id=request.user.id).id
             except ObjectDoesNotExist:
                 event.sowhated = False
             event.comment_num = len(answer.comments.all())
+            event.question = answer.question
+            event.answer = answer
+            event.father.type = 1
     return render_to_response('main/index.html',context_instance=RequestContext(request,{'title':'index','events':events}))
 
 def topic(request):  
@@ -70,6 +78,7 @@ def login_view(request):
         form = LoginForm() 
     return render_to_response('main/login.html',context_instance=RequestContext(request,{'title':'login','form':form}))
 
+@login_required  
 def logout_view(request):  
     logout(request)  
     return login_view(request)
@@ -77,33 +86,44 @@ def logout_view(request):
 def show_question(request,question_id):
     return render_to_response('main/show_question.html',context_instance=RequestContext(request,{'title':'show_question'}))
 
+@transaction.commit_on_success
 def new_question(request):  
     pass
 
+@transaction.commit_on_success
 def edit_question(request,question_id):  
     pass
 
+@transaction.commit_on_success
 def del_question(request,question_id):  
     pass
 
+@ajax_view
+@transaction.commit_on_success
 def follow_question(request,question_id):  
     question = Question.objects.get(id=question_id)
     user = request.user
     question.follower.add(user)
     return HttpResponse(json.dumps({"success":True,"text":"取消关注","href":"/question/"+question_id+"/unfollow/","num":""}),mimetype="application/json")
 
+@ajax_view
+@transaction.commit_on_success
 def unfollow_question(request,question_id):  
     question = Question.objects.get(id=question_id)
     user = request.user
     question.follower.remove(user)
     return HttpResponse(json.dumps({"success":True,"text":"关注","href":"/question/"+question_id+"/follow/","num":str(len(question.follower.all()))+"个"}),mimetype="application/json")
 
+@ajax_view
+@transaction.commit_on_success
 def collect_question(request,question_id):  
     question = Question.objects.get(id=question_id)
     user = request.user
     question.collector.add(user)
     return HttpResponse(json.dumps({"success":True,"text":"取消收藏","href":"/question/"+question_id+"/uncollect/","num":""}),mimetype="application/json")
 
+@ajax_view
+@transaction.commit_on_success
 def uncollect_question(request,question_id):  
     question = Question.objects.get(id=question_id)
     user = request.user
@@ -113,41 +133,76 @@ def uncollect_question(request,question_id):
 def show_people(request):  
     pass
 
+@transaction.commit_on_success
 def new_people(request):  
     pass
 
+@transaction.commit_on_success
 def edit_people(request):  
     pass
 
+@transaction.commit_on_success
 def del_people(request):  
     pass
 
+@transaction.commit_on_success
 def follow_people(request):  
     pass
 
+@transaction.commit_on_success
 def unfollow_people(request):  
     pass
 
 def show_topic(request):  
     pass
 
+@transaction.commit_on_success
 def new_topic(request):  
     pass
 
+@transaction.commit_on_success
 def edit_topic(request):  
     pass
 
+@transaction.commit_on_success
 def del_topic(request):  
     pass
 
+@transaction.commit_on_success
 def follow_topic(request):  
     pass
 
+@transaction.commit_on_success
 def unfollow_topic(request):  
     pass
 
-def new_eva(request):  
+@ajax_view
+@transaction.commit_on_success
+def new_eva(request,answer_id,eva_kind):  
+    answer = Answer.objects.get(id=answer_id)
+    user = request.user
+    eva = Evaluation(answer=answer,user=user,kind=eva_kind)
+    eva.save()
+    kind_des = Evaluation.KIND[int(eva_kind)][1]
+    return HttpResponse(json.dumps({"success":True,"text":"取消"+kind_des,"href":"/answer/"+answer_id+"/eva/"+str(eva.id)+"/del/","num":""}),mimetype="application/json")
+
+@ajax_view
+@transaction.commit_on_success
+def del_eva(request,answer_id,eva_id):  
+    answer = Answer.objects.get(id=answer_id)
+    eva = Evaluation.objects.get(id=eva_id)
+    eva_kind = eva.kind
+    kind_des = Evaluation.KIND[eva_kind][1]
+    eva.delete()
+    num = str(len(answer.evaluation_set.filter(kind=eva_kind)))
+    return HttpResponse(json.dumps({"success":True,"text":kind_des,"href":"/answer/"+answer_id+"/eva/"+str(eva_kind)+"/new/","num":num+"个"}),mimetype="application/json")
+
+@ajax_view
+@transaction.commit_on_success
+def new_comment(request):  
     pass
 
-def del_eva(request):  
+@ajax_view
+@transaction.commit_on_success
+def del_comment(request,comment_id):  
     pass

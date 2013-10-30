@@ -1,66 +1,136 @@
-/* line 2, ../../sass/special/index.scss */
+/* line 4, ../../sass/special/index.scss */
 .items .item {
   margin-top: 26px;
 }
-/* line 5, ../../sass/special/index.scss */
+/* line 7, ../../sass/special/index.scss */
 .items .item .avatar {
   float: left;
 }
-/* line 9, ../../sass/special/index.scss */
+/* line 11, ../../sass/special/index.scss */
 .items .item .question-main {
   margin-left: 58px;
   color: #555;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 20px;
 }
-/* line 14, ../../sass/special/index.scss */
+/* line 18, ../../sass/special/index.scss */
 .items .item .question-main .source a {
   color: #555;
   margin: 0 6px;
 }
-/* line 18, ../../sass/special/index.scss */
+/* line 22, ../../sass/special/index.scss */
 .items .item .question-main .source a:hover {
   color: #fff;
 }
-/* line 24, ../../sass/special/index.scss */
+/* line 28, ../../sass/special/index.scss */
 .items .item .question-main .content {
   margin-top: 10px;
   margin-left: 18px;
   padding: 16px 20px;
   background: #f9f9f9;
 }
-/* line 30, ../../sass/special/index.scss */
+/* line 34, ../../sass/special/index.scss */
 .items .item .question-main .content h2 {
   font-size: 14px;
   margin-bottom: 2px;
 }
-/* line 35, ../../sass/special/index.scss */
+/* line 39, ../../sass/special/index.scss */
 .items .item .question-main .content .showAll, .items .item .question-main .content .packUp {
   cursor: pointer;
 }
-/* line 40, ../../sass/special/index.scss */
+/* line 44, ../../sass/special/index.scss */
 .items .item .question-main .addtion {
   margin-top: 14px;
   margin-left: 38px;
-  padding-bottom: 24px;
-  border-bottom: 1px solid #ddd;
+  padding-bottom: 8px;
 }
-/* line 46, ../../sass/special/index.scss */
+/* line 49, ../../sass/special/index.scss */
 .items .item .question-main .addtion .time {
   color: #999;
   margin-right: 12px;
 }
-/* line 51, ../../sass/special/index.scss */
+/* line 54, ../../sass/special/index.scss */
 .items .item .question-main .addtion .operation {
   color: #37a;
 }
-/* line 54, ../../sass/special/index.scss */
+/* line 57, ../../sass/special/index.scss */
 .items .item .question-main .addtion .operation a {
   margin-right: 6px;
 }
-/* line 57, ../../sass/special/index.scss */
+/* line 60, ../../sass/special/index.scss */
 .items .item .question-main .addtion .operation a:hover {
   color: #fff;
 }
-/* line 66, ../../sass/special/index.scss */
+/* line 67, ../../sass/special/index.scss */
+.items .item .question-main .comments-wrapper {
+  margin-left: 38px;
+  margin-top: 6px;
+  border: 1px solid #ddd;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  -o-border-radius: 4px;
+  border-radius: 4px;
+  padding: 12px;
+}
+/* line 74, ../../sass/special/index.scss */
+.items .item .question-main .comments-wrapper .comments {
+  border-bottom: 1px solid #ddd;
+}
+/* line 77, ../../sass/special/index.scss */
+.items .item .question-main .comments-wrapper .comments .comment {
+  margin-bottom: 16px;
+}
+/* line 80, ../../sass/special/index.scss */
+.items .item .question-main .comments-wrapper .comments .comment .comment-main {
+  margin-left: 36px;
+  line-height: 12px;
+}
+/* line 84, ../../sass/special/index.scss */
+.items .item .question-main .comments-wrapper .comments .comment .comment-main .content {
+  background: #fff;
+  margin: 0;
+  padding: 0;
+}
+/* line 90, ../../sass/special/index.scss */
+.items .item .question-main .comments-wrapper .comments .comment .comment-main .addtion {
+  margin: 0;
+  padding: 0;
+  margin-top: 8px;
+}
+/* line 97, ../../sass/special/index.scss */
+.items .item .question-main .comments-wrapper .comments .comment .comment-main .comment-form.small input {
+  width: 394px;
+  height: 24px;
+}
+/* line 106, ../../sass/special/index.scss */
+.items .item .question-main .comments-wrapper .comment-form {
+  margin-top: 12px;
+}
+/* line 109, ../../sass/special/index.scss */
+.items .item .question-main .comments-wrapper .comment-form input {
+  width: 430px;
+  border: 1px solid #c9c9c9;
+  padding-left: 6px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+  border-radius: 3px;
+}
+/* line 115, ../../sass/special/index.scss */
+.items .item .question-main .comments-wrapper .comment-form input:focus {
+  -webkit-box-shadow: 0 0 7px #dddddd;
+  -moz-box-shadow: 0 0 7px #dddddd;
+  box-shadow: 0 0 7px #dddddd;
+}
+/* line 120, ../../sass/special/index.scss */
+.items .item .question-main .comments-wrapper .comment-form button {
+  margin-left: 20px;
+  height: 24px;
+  width: 60px;
+}
+/* line 130, ../../sass/special/index.scss */
 .items .item:last-child .addtion {
   border-bottom: none;
 }

@@ -1,3 +1,5 @@
+@import "compass/css3";
+
 .items{
     .item{
         margin-top: 26px;
@@ -9,6 +11,8 @@
         .question-main{
             margin-left: 58px;
             color: #555;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 20px;
 
             .source{
                 a{
@@ -40,8 +44,7 @@
             .addtion{
                 margin-top: 14px;
                 margin-left: 38px;
-                padding-bottom: 24px;
-                border-bottom: 1px solid #ddd;
+                padding-bottom: 8px;
 
                 .time{
                     color: #999;
@@ -57,6 +60,67 @@
                         &:hover{
                             color: #fff;
                         }
+                    }
+                }
+            }
+
+            .comments-wrapper{
+                margin-left: 38px;
+                margin-top: 6px;
+                border: 1px solid #ddd;
+                @include border-radius(4px);
+                padding: 12px;
+
+                .comments{
+                    border-bottom: 1px solid #ddd;
+
+                    .comment{
+                        margin-bottom: 16px;
+
+                        .comment-main{
+                            margin-left: 36px;
+                            line-height: 12px;
+
+                            .content{
+                                background: #fff;
+                                margin: 0;
+                                padding: 0;
+                            }
+
+                            .addtion{
+                                margin: 0;
+                                padding: 0;
+                                margin-top: 8px;
+                            }
+
+                            .comment-form.small{
+                                input{
+                                    width: 394px;
+                                    height: 24px;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                .comment-form{
+                    margin-top: 12px;
+
+                    input{
+                        width: 430px;
+                        border: 1px solid #c9c9c9;
+                        padding-left: 6px;
+                        @include border-radius(3px);
+
+                        &:focus{
+                            @include box-shadow(0 0 7px #ddd);
+                        }
+                    }
+
+                    button{
+                        margin-left: 20px;
+                        height: 24px;
+                        width: 60px;
                     }
                 }
             }

@@ -40,8 +40,11 @@ urlpatterns = patterns('',
     url(r'^topic/(?P<topic_id>\d+)/follow/$', follow_topic), 
     url(r'^topic/(?P<topic_id>\d+)/unfollow/$', unfollow_topic), 
 
-    url(r'^eva/new/$', new_eva),
-    url(r'^eva/(?P<eva_id>\d+)/del/$', del_eva),
+    url(r'^answer/(?P<answer_id>\d+)/eva/(?P<eva_kind>\d+)/new/$', new_eva),
+    url(r'^answer/(?P<answer_id>\d+)/eva/(?P<eva_id>\d+)/del/$', del_eva),
+
+    url(r'^comment/new/$', new_comment),
+    url(r'^comment/(?P<comment_id>\d+)/del/$', del_comment),
 )
 
 # media access

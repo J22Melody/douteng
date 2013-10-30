@@ -13,7 +13,13 @@ class Commentable(models.Model):
 
     comments = generic.GenericRelation('Comment',content_type_field='content_type',object_id_field='obj_id')
 
-class Profile(models.Model):
+class Eventable(models.Model):
+    class Meta:
+        abstract = True
+
+    events = generic.GenericRelation('Event',content_type_field='content_type',object_id_field='obj_id') 
+
+class Profile(Eventable):
     MAN = 0
     WOMAN = 1
     SEX = ((MAN,'男'),(WOMAN,'女'),)
@@ -26,14 +32,14 @@ class Profile(models.Model):
     score = models.IntegerField(default=100)
     follower = models.ManyToManyField(User,related_name="followed")
 
-class Topic(models.Model):
+class Topic(Eventable):
     title = models.CharField(max_length=20)
     description = models.TextField()
     creater = models.ForeignKey(User,related_name="topic_ed")
     follower = models.ManyToManyField(User,related_name="topic_followed",blank=True,null=True)
     father = models.ForeignKey('self',blank=True,null=True)
 
-class Question(Commentable):
+class Question(Commentable,Eventable):
     title = models.CharField(max_length=50)
     content = models.TextField()
     score = models.IntegerField()
@@ -44,7 +50,7 @@ class Question(Commentable):
     create_time = models.DateTimeField(auto_now_add=True)
     update_time = models.DateTimeField(auto_now=True)
 
-class Answer(Commentable):
+class Answer(Commentable,Eventable):
     content = models.TextField()
     score = models.IntegerField(default=0)
     answerer = models.ForeignKey(User)
@@ -52,17 +58,17 @@ class Answer(Commentable):
     create_time = models.DateTimeField(auto_now_add=True)
     update_time = models.DateTimeField(auto_now=True)
     
-class Evaluation(models.Model):
+class Evaluation(Eventable):
     GOOD = 0
     BAD = 1
     SOWHAT = 2
-    KIND = ((GOOD,'赞同'),(BAD,'反对'),(SOWHAT,"dont't give a fuck"))
+    KIND = ((GOOD,'赞同'),(BAD,'反对'),(SOWHAT,"不屑一顾"))
 
     kind = models.PositiveSmallIntegerField(choices=KIND)
     user = models.ForeignKey(User)
     answer = models.ForeignKey(Answer)
 
-class Comment(Commentable):
+class Comment(Commentable,Eventable):
     user = models.ForeignKey(User)
     content = models.TextField()
     create_time = models.DateTimeField()
@@ -127,4 +133,22 @@ def user_follower_add(sender, instance, action, pk_set, **kwargs):
 def topic_follower_add(sender, instance, action, pk_set, **kwargs):
     if action == "post_add":
         event = Event(kind=6,user=User.objects.get(id=list(pk_set)[0]),father=instance)
+        event.save()
+
+@receiver(m2m_changed, sender=Question.follower.through)
+def question_follower_del(sender, instance, action, pk_set, **kwargs):
+    if action == "post_remove":
+        event = Event.objects.get(kind=4,user_id=list(pk_set)[0],obj_id=instance.id)
+        event.delete()
+
+@receiver(m2m_changed, sender=Profile.follower.through)
+def user_follower_del(sender, instance, action, pk_set, **kwargs):
+    if action == "post_remove":
+        event = Event.objects.get(kind=5,user_id=list(pk_set)[0],obj_id=instance.id)
+        event.delete()
+
+@receiver(m2m_changed, sender=Topic.follower.through)
+def topic_follower_del(sender, instance, action, pk_set, **kwargs):
+    if action == "post_remove":
+        event = Event.objects.get(kind=6,user_id=list(pk_set)[0],obj_id=instance.id)
         event.save()

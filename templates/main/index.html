@@ -8,10 +8,10 @@
     <ul class="items">
         {% for event in events %}
         <li class="item">
-            <a href="" class="avatar"><img src="/media/avatar/default.jpg"></a>
+            <a href="{% url "main.views.show_people" event.user.id %}" class="avatar"><img src="/media/avatar/default.jpg"></a>
             <div class="question-main">
                 <div class="source">
-                    <a href="" class="user">{{ event.user.username }}</a>
+                    <a href="{% url "main.views.show_people" event.user.id %}" class="user">{{ event.user.username }}</a>
                     {% ifequal event.kind 0 %}
                         提出了问题
                     {% endifequal %}
@@ -20,13 +20,13 @@
                     {% endifequal %}
                     {% ifequal event.kind 2 %}
                         {% ifequal event.father.kind 0 %}
-                            赞同<a href="" class="answerer">{{ event.father.answer.answerer }}</a>的回答
+                            赞同<a href="{% url "main.views.show_people" event.father.answer.answerer.id %}" class="answerer">{{ event.father.answer.answerer }}</a>的回答
                         {% endifequal %}
                         {% ifequal event.father.kind 1 %}
-                            反对<a href="" class="answerer">{{ event.father.answer.answerer }}</a>的回答
+                            反对<a href="{% url "main.views.show_people" event.father.answer.answerer.id %}" class="answerer">{{ event.father.answer.answerer }}</a>的回答
                         {% endifequal %}
                         {% ifequal event.father.kind 2 %}
-                            对<a href="" class="answerer">{{ event.father.answer.answerer }}</a>的回答不屑一顾
+                            对<a href="{% url "main.views.show_people" event.father.answer.answerer.id %}" class="answerer">{{ event.father.answer.answerer }}</a>的回答不屑一顾
                         {% endifequal %}
                     {% endifequal %}
                     {% ifequal event.kind 4 %}
@@ -35,7 +35,7 @@
                     :
                 </div>
                 <div class="content">
-                    <h2><a href="">{{ event.title }}</a></h2>
+                    <h2><a href="{% url "main.views.show_question" event.question.id %}">{{ event.title }}</a></h2>
                     {% if event.content|length > 200 %}
                     <p class="answer none">
                         {{ event.content }}
@@ -55,18 +55,67 @@
                     <span class="time">{{ event.create_time|date:"Y年m月d日 H时i分" }}</span>
                     <span class="operation">
                         {% if event.kind == 0 or event.kind == 4 %}
-                            <span>{% if not event.followed %}{{ event.follower_num }}个{% endif %}</span><a class="J_operation" href="/question/{{ event.father.id }}/{% if event.followed %}un{% endif %}follow/">{% if event.followed %}取消{% endif %}关注</a>
-                            <span>{% if not event.collected %}{{ event.collector_num }}个{% endif %}</span><a class="J_operation" href="/question/{{ event.father.id }}/{% if event.collected %}un{% endif %}collect/">{% if event.collected %}取消{% endif %}收藏</a>
-                            {{ event.answer_num }}个<a href="">回答</a>
-                            {{ event.comment_num }}条<a href="">评论</a>
+                            <span>{% if not event.followed %}{{ event.follower_num }}个{% endif %}</span><a class="J_operation" href="{% if event.followed %}{% url "main.views.unfollow_question" event.question.id %}{% else %}{% url "main.views.follow_question" event.question.id %}{% endif %}">{% if event.followed %}取消{% endif %}关注</a>
+                            <span>{% if not event.collected %}{{ event.collector_num }}个{% endif %}</span><a class="J_operation" href="{% if event.collected %}{% url "main.views.uncollect_question" event.question.id %}{% else %}{% url "main.views.collect_question" event.question.id %}{% endif %}">{% if event.collected %}取消{% endif %}收藏</a>
+                            <a href="{% url "main.views.show_question" event.question.id %}">{{ event.answer_num }}个回答</a>
+                            <a class="add-comment">{% if event.comment_num %}{{ event.comment_num }}条{% else %}添加{% endif %}评论</a>
                         {% endif %}
                         {% if event.kind == 1 or event.kind == 2 %}
-                            <span>{% if not event.gooded %}{{ event.good_num }}个{% endif %}</span><a href="/eva/{% if event.gooded %}{{ event.gooded }}/del{% else %}new{% endif %}">{% if event.gooded %}取消{% endif %}赞同</a>
-                            <span>{% if not event.baded %}{{ event.bad_num }}个{% endif %}</span><a href="/eva/{% if event.baded %}{{ event.baded }}/del{% else %}new{% endif %}">{% if event.baded %}取消{% endif %}反对</a>
-                            <span>{% if not event.sowhated %}{{ event.sowhat_num }}个{% endif %}</span><a href="/eva/{% if event.sowhated %}{{ event.sowhated }}/del{% else %}new{% endif %}">{% if event.sowhated %}取消{% endif %}不屑</a>
-                            {{ event.comment_num }}条<a href="">评论</a>
+                            <span>{% if not event.gooded %}{{ event.good_num }}个{% endif %}</span><a class="J_operation" href="{% if event.gooded %}{% url "main.views.del_eva" event.answer.id event.gooded %}{% else %}{% url "main.views.new_eva" event.answer.id 0 %}{% endif %}">{% if event.gooded %}取消{% endif %}赞同</a>
+                            <span>{% if not event.baded %}{{ event.bad_num }}个{% endif %}</span><a class="J_operation" href="{% if event.baded %}{% url "main.views.del_eva" event.answer.id event.baded %}{% else %}{% url "main.views.new_eva" event.answer.id 1 %}{% endif %}">{% if event.baded %}取消{% endif %}反对</a>
+                            <span>{% if not event.sowhated %}{{ event.sowhat_num }}个{% endif %}</span><a class="J_operation" href="{% if event.sowhated %}{% url "main.views.del_eva" event.answer.id event.sowhated %}{% else %}{% url "main.views.new_eva" event.answer.id 2 %}{% endif %}">{% if event.sowhated %}取消{% endif %}不屑一顾</a>
+                            <a class="add-comment">{% if event.comment_num %}{{ event.comment_num }}条{% else %}添加{% endif %}评论</a>
                         {% endif %}
                     </span>
+                </div>
+                <div class="comments-wrapper none">
+                    <ul class="comments">
+                        <li class="comment">
+                            <a href="" class="avatar small"><img src="/media/avatar/default.jpg"></a>
+                            <div class="comment-main">
+                                <div class="content">
+                                    太感动了 你的答案给我很多启发 尤其是 安身 和 立命 的区分 谢谢～
+                                    &nbsp-&nbsp<a href="" class="user">admin</a>
+                                </div>
+                                <div class="addtion">
+                                    <span class="time">2013年10月30日 16时27分</span><a class="add-comment">回复</a>
+                                </div>
+                                <form class="comment-form small J_comment none" method="POST" action="{% url "main.views.new_comment" %}">
+                                    {% csrf_token %}
+                                    <input name="father_id" type="hidden" value="{{ event.father.id }}">
+                                    <input name="father_type" type="hidden" value="2">
+                                    <input name="content" type="text" placeholder="@admin">
+                                    <button type="submit">提交</button>
+                                </form>
+                            </div> 
+                        </li>
+                        <li class="comment">
+                            <a href="" class="avatar small"><img src="/media/avatar/default.jpg"></a>
+                            <div class="comment-main">
+                                <div class="content">
+                                    太感动了 你的答案给我很多启发 尤其是 安身 和 立命 的区分 谢谢～
+                                    &nbsp-&nbsp<a href="" class="user">admin</a>
+                                </div>
+                                <div class="addtion">
+                                    <span class="time">2013年10月30日 16时27分</span><a class="add-comment">回复</a>
+                                </div>
+                                <form class="comment-form small J_comment none" method="POST" action="{% url "main.views.new_comment" %}">
+                                    {% csrf_token %}
+                                    <input name="father_id" type="hidden" value="{{ event.father.id }}">
+                                    <input name="father_type" type="hidden" value="2">
+                                    <input name="content" type="text" placeholder="@admin">
+                                    <button type="submit">提交</button>
+                                </form>
+                            </div> 
+                        </li>
+                    </ul>
+                    <form class="comment-form J_comment" method="POST" action="{% url "main.views.new_comment" %}">
+                        {% csrf_token %}
+                        <input name="father_id" type="hidden" value="{{ event.father.id }}">
+                        <input name="father_type" type="hidden" value="{{ event.father.type }}">
+                        <input name="content" type="text" placeholder="写下你的评论...">
+                        <button type="submit">提交</button>
+                    </form>
                 </div>
             </div>
         </li>
