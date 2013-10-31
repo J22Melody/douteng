@@ -43,6 +43,7 @@ urlpatterns = patterns('',
     url(r'^answer/(?P<answer_id>\d+)/eva/(?P<eva_kind>\d+)/new/$', new_eva),
     url(r'^answer/(?P<answer_id>\d+)/eva/(?P<eva_id>\d+)/del/$', del_eva),
 
+    # url(r'^comment/getlist/(?P<father_type>\d+)/(?P<father_id>\d+)/$', getlist_comment),
     url(r'^comment/new/$', new_comment),
     url(r'^comment/(?P<comment_id>\d+)/del/$', del_comment),
 )

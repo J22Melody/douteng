@@ -103,11 +103,17 @@
   width: 394px;
   height: 24px;
 }
-/* line 106, ../../sass/special/index.scss */
+/* line 105, ../../sass/special/index.scss */
+.items .item .question-main .comments-wrapper .comments .no-comment {
+  margin-left: 222px;
+  margin-bottom: 12px;
+  color: #aaa;
+}
+/* line 112, ../../sass/special/index.scss */
 .items .item .question-main .comments-wrapper .comment-form {
   margin-top: 12px;
 }
-/* line 109, ../../sass/special/index.scss */
+/* line 115, ../../sass/special/index.scss */
 .items .item .question-main .comments-wrapper .comment-form input {
   width: 430px;
   border: 1px solid #c9c9c9;
@@ -118,19 +124,19 @@
   -o-border-radius: 3px;
   border-radius: 3px;
 }
-/* line 115, ../../sass/special/index.scss */
+/* line 121, ../../sass/special/index.scss */
 .items .item .question-main .comments-wrapper .comment-form input:focus {
   -webkit-box-shadow: 0 0 7px #dddddd;
   -moz-box-shadow: 0 0 7px #dddddd;
   box-shadow: 0 0 7px #dddddd;
 }
-/* line 120, ../../sass/special/index.scss */
+/* line 126, ../../sass/special/index.scss */
 .items .item .question-main .comments-wrapper .comment-form button {
   margin-left: 20px;
   height: 24px;
   width: 60px;
 }
-/* line 130, ../../sass/special/index.scss */
+/* line 136, ../../sass/special/index.scss */
 .items .item:last-child .addtion {
   border-bottom: none;
 }

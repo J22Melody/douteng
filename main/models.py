@@ -68,10 +68,11 @@ class Evaluation(Eventable):
     user = models.ForeignKey(User)
     answer = models.ForeignKey(Answer)
 
-class Comment(Commentable,Eventable):
+class Comment(Eventable):
     user = models.ForeignKey(User)
+    target = models.ForeignKey(User,related_name="comment_to_me",blank=True,null=True)
     content = models.TextField()
-    create_time = models.DateTimeField()
+    create_time = models.DateTimeField(auto_now_add=True)
     content_type = models.ForeignKey(ContentType)
     obj_id = models.PositiveIntegerField()
     father = generic.GenericForeignKey('content_type','obj_id')

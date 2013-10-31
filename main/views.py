@@ -8,8 +8,10 @@ from django.utils import simplejson as json
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import transaction
 from django.contrib.auth.decorators import login_required  
-from lib import *
+from django.core.serializers.json import DjangoJSONEncoder
+from django.core import serializers
 
+from lib import *
 from models import *
 from forms import *
 
@@ -17,29 +19,27 @@ def index(request):
     events = Event.objects.filter(kind__in=[0,1,2,4])
     for event in events:
         if event.kind == 0 or event.kind == 4:
-            question = event.father
-            event.title = question.title
-            event.content = question.content
-            followers = question.follower.all()
-            collectors = question.collector.all()
+            event.question = event.father
+            event.content = event.question.content
+            followers = event.question.follower.all()
+            collectors = event.question.collector.all()
             event.follower_num = len(followers)
             event.collector_num = len(collectors)
             event.followed = followers.filter(id=request.user.id).exists()
             event.collected = collectors.filter(id=request.user.id).exists()
-            event.answer_num = len(question.answer_set.all())
-            event.comment_num = len(question.comments.all())
-            event.question = question
+            event.answer_num = len(event.question.answer_set.all())
+            event.comments = event.question.comments.all()
             event.father.type = 0
         elif event.kind == 1 or event.kind == 2:
             if event.kind == 1:
-                answer = event.father
+                event.answer = event.father
             elif event.kind == 2:
-                answer = event.father.answer
-            event.title = answer.question.title
-            event.content = answer.content
-            goods = answer.evaluation_set.filter(kind=0)
-            bads = answer.evaluation_set.filter(kind=1)
-            sowhats = answer.evaluation_set.filter(kind=2)
+                event.answer = event.father.answer
+            event.question = event.answer.question        
+            event.content = event.answer.content
+            goods = event.answer.evaluation_set.filter(kind=0)
+            bads = event.answer.evaluation_set.filter(kind=1)
+            sowhats = event.answer.evaluation_set.filter(kind=2)
             event.good_num = len(goods)
             event.bad_num = len(bads)
             event.sowhat_num = len(sowhats)
@@ -55,10 +55,10 @@ def index(request):
                 event.sowhated = sowhats.get(user_id=request.user.id).id
             except ObjectDoesNotExist:
                 event.sowhated = False
-            event.comment_num = len(answer.comments.all())
-            event.question = answer.question
-            event.answer = answer
+            event.comments = event.answer.comments.all()          
             event.father.type = 1
+        event.title = event.question.title
+        event.comment_num = len(event.comments)    
     return render_to_response('main/index.html',context_instance=RequestContext(request,{'title':'index','events':events}))
 
 def topic(request):  
@@ -197,12 +197,35 @@ def del_eva(request,answer_id,eva_id):
     num = str(len(answer.evaluation_set.filter(kind=eva_kind)))
     return HttpResponse(json.dumps({"success":True,"text":kind_des,"href":"/answer/"+answer_id+"/eva/"+str(eva_kind)+"/new/","num":num+"个"}),mimetype="application/json")
 
-@ajax_view
+@ajax_view(method="POST")
 @transaction.commit_on_success
 def new_comment(request):  
-    pass
+    user = request.user
+    content = request.POST.get('content','')
+    father = None
+    comment = None
+    if request.POST.get('father_type') == '0':
+        father = Question.objects.get(id=request.POST.get('father_id'))
+    elif request.POST.get('father_type') == '1':
+        father = Answer.objects.get(id=request.POST.get('father_id'))
+    if request.POST.get('target_id',None):
+        comment = Comment(user=user,father=father,content=content,target_id=int(request.POST.get('target_id',None)))
+    else:
+        comment = Comment(user=user,father=father,content=content)
+    comment.save()
+    return HttpResponse(json.dumps({"success":True}),mimetype="application/json")
 
 @ajax_view
 @transaction.commit_on_success
 def del_comment(request,comment_id):  
-    pass
+    comment = Comment.objects.get(id=comment_id)
+    comment.delete()
+    return HttpResponse(json.dumps({"success":True}),mimetype="application/json")
+
+# def getlist_comment(request,father_type,father_id):
+#     if father_type == '0':
+#         comments = Question.objects.get(id=father_id).comments.all()
+#     elif father_type == '1':
+#         comments = Answer.objects.get(id=father_id).comments.all()
+#     comments = serializers.serialize('python', comments)
+#     return HttpResponse(json.dumps({"success":True,"comments":comments},cls=DjangoJSONEncoder),mimetype="application/json")

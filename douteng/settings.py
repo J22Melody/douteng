@@ -1,6 +1,6 @@
 # coding=utf8
 
-# Django settings for overflowMe project.
+# Django settings for douteng project.
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -117,10 +117,10 @@ MIDDLEWARE_CLASSES = (
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
-ROOT_URLCONF = 'overflowMe.urls'
+ROOT_URLCONF = 'douteng.urls'
 
 # Python dotted path to the WSGI application used by Django's runserver.
-WSGI_APPLICATION = 'overflowMe.wsgi.application'
+WSGI_APPLICATION = 'douteng.wsgi.application'
 
 TEMPLATE_DIRS = (
     "templates"
