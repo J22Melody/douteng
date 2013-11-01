@@ -206,14 +206,21 @@ def new_comment(request):
     comment = None
     if request.POST.get('father_type') == '0':
         father = Question.objects.get(id=request.POST.get('father_id'))
+        father.user = father.asker
     elif request.POST.get('father_type') == '1':
         father = Answer.objects.get(id=request.POST.get('father_id'))
+        father.user = father.answerer
     if request.POST.get('target_id',None):
         comment = Comment(user=user,father=father,content=content,target_id=int(request.POST.get('target_id',None)))
     else:
         comment = Comment(user=user,father=father,content=content)
     comment.save()
-    return HttpResponse(json.dumps({"success":True}),mimetype="application/json")
+    comment_id = comment.id
+    target_username = ''
+    if comment.target:
+        target_username = comment.target.username
+    comment = serializers.serialize('python', [comment,])
+    return HttpResponse(json.dumps({"success":True,"comment_id":comment_id,"comment":comment,"target_username":target_username,"username":user.username,"user_id":father.user.id,"father_type":request.POST.get('father_type')},cls=DjangoJSONEncoder),mimetype="application/json")
 
 @ajax_view
 @transaction.commit_on_success
