@@ -221,15 +221,10 @@ def new_comment(request):
     target_username = ''
     if comment.target:
         target_username = comment.target.username
-<<<<<<< HEAD
     create_time = (comment.create_time+timedelta(hours=8)).strftime('%Y年%m月%d日 %H时%M分')
     comment = serializers.serialize('python', [comment,])
     return HttpResponse(json.dumps({"success":True,"create_time":create_time,"comment_id":comment_id,"comment":comment,"target_username":target_username,"username":user.username,"user_id":father.user.id,"father_type":request.POST.get('father_type')},cls=DjangoJSONEncoder),mimetype="application/json")
-=======
-    comment = serializers.serialize('python', [comment,])
-    return HttpResponse(json.dumps({"success":True,"comment_id":comment_id,"comment":comment,"target_username":target_username,"username":user.username,"user_id":father.user.id,"father_type":request.POST.get('father_type')},cls=DjangoJSONEncoder),mimetype="application/json")
->>>>>>> ae6c032274551a59987f6c141b23085d9c3edc19
-
+    
 @ajax_view
 @transaction.commit_on_success
 def del_comment(request,comment_id):  
