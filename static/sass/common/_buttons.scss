@@ -1,0 +1,21 @@
+.btn{
+    cursor: pointer;
+
+    &.comment-submit{
+        height: 24px;
+        width: 60px;
+        @include border-radius(4px);
+        @include background-image(linear-gradient(top,#fcfcfc,#e9e9e9));
+        border-width: 1px;
+        border-style: solid;
+        border-color: #bbb #bbb #999;
+
+        &:hover{
+            @include background-image(linear-gradient(top,#f8f8f8,#ddd));
+        }
+
+        &:focus{
+            @include background-image(linear-gradient(top,#eee,#ddd));
+        }
+    }
+}

@@ -133,10 +133,8 @@
 /* line 126, ../../sass/special/index.scss */
 .items .item .question-main .comments-wrapper .comment-form button {
   margin-left: 20px;
-  height: 24px;
-  width: 60px;
 }
-/* line 136, ../../sass/special/index.scss */
+/* line 134, ../../sass/special/index.scss */
 .items .item:last-child .addtion {
   border-bottom: none;
 }

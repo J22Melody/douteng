@@ -1,0 +1,59 @@
+/* line 1, ../../sass/special/show_question.scss */
+h1 {
+  margin-top: 14px;
+}
+
+/* line 5, ../../sass/special/show_question.scss */
+.topic-list {
+  margin: 6px 0;
+}
+/* line 8, ../../sass/special/show_question.scss */
+.topic-list .topic {
+  float: left;
+  margin-right: 16px;
+}
+
+/* line 14, ../../sass/special/show_question.scss */
+.question-content {
+  margin-top: 4px;
+  color: #222;
+  line-height: 1.8;
+  padding: 16px 20px;
+  background: #f9f9f9;
+}
+
+/* line 22, ../../sass/special/show_question.scss */
+.question-operation {
+  margin-top: 10px;
+  margin-bottom: 20px;
+  margin-left: 20px;
+}
+
+/* line 30, ../../sass/special/show_question.scss */
+.answers .answer {
+  padding: 20px 0;
+  border-top: 1px solid #ddd;
+}
+/* line 35, ../../sass/special/show_question.scss */
+.answers .answer .source .avatar {
+  margin-right: 12px;
+}
+/* line 43, ../../sass/special/show_question.scss */
+.answers .answer .source .time {
+  color: #999;
+}
+/* line 48, ../../sass/special/show_question.scss */
+.answers .answer .content {
+  color: #222;
+  line-height: 1.8;
+  padding: 16px 20px;
+  background: #f9f9f9;
+}
+/* line 55, ../../sass/special/show_question.scss */
+.answers .answer .operation {
+  margin-left: 20px;
+}
+/* line 58, ../../sass/special/show_question.scss */
+.answers .answer .operation a {
+  margin-right: 6px;
+}

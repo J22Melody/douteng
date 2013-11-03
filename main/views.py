@@ -10,6 +10,7 @@ from django.db import transaction
 from django.contrib.auth.decorators import login_required  
 from django.core.serializers.json import DjangoJSONEncoder
 from django.core import serializers
+from datetime import timedelta
 
 from lib import *
 from models import *
@@ -84,7 +85,8 @@ def logout_view(request):
     return login_view(request)
 
 def show_question(request,question_id):
-    return render_to_response('main/show_question.html',context_instance=RequestContext(request,{'title':'show_question'}))
+    question = Question.objects.get(id=question_id)
+    return render_to_response('main/show_question.html',context_instance=RequestContext(request,{'title':'show_question','question':question}))
 
 @transaction.commit_on_success
 def new_question(request):  
@@ -206,14 +208,22 @@ def new_comment(request):
     comment = None
     if request.POST.get('father_type') == '0':
         father = Question.objects.get(id=request.POST.get('father_id'))
+        father.user = father.asker
     elif request.POST.get('father_type') == '1':
         father = Answer.objects.get(id=request.POST.get('father_id'))
+        father.user = father.answerer
     if request.POST.get('target_id',None):
         comment = Comment(user=user,father=father,content=content,target_id=int(request.POST.get('target_id',None)))
     else:
         comment = Comment(user=user,father=father,content=content)
     comment.save()
-    return HttpResponse(json.dumps({"success":True}),mimetype="application/json")
+    comment_id = comment.id
+    target_username = ''
+    if comment.target:
+        target_username = comment.target.username
+    create_time = (comment.create_time+timedelta(hours=8)).strftime('%Y年%m月%d日 %H时%M分')
+    comment = serializers.serialize('python', [comment,])
+    return HttpResponse(json.dumps({"success":True,"create_time":create_time,"comment_id":comment_id,"comment":comment,"target_username":target_username,"username":user.username,"user_id":father.user.id,"father_type":request.POST.get('father_type')},cls=DjangoJSONEncoder),mimetype="application/json")
 
 @ajax_view
 @transaction.commit_on_success
