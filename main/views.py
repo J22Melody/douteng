@@ -224,7 +224,7 @@ def new_comment(request):
     create_time = (comment.create_time+timedelta(hours=8)).strftime('%Y年%m月%d日 %H时%M分')
     comment = serializers.serialize('python', [comment,])
     return HttpResponse(json.dumps({"success":True,"create_time":create_time,"comment_id":comment_id,"comment":comment,"target_username":target_username,"username":user.username,"user_id":father.user.id,"father_type":request.POST.get('father_type')},cls=DjangoJSONEncoder),mimetype="application/json")
-    
+
 @ajax_view
 @transaction.commit_on_success
 def del_comment(request,comment_id):  
