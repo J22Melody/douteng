@@ -3,11 +3,11 @@
 {% block title %} 豆藤 {% endblock %} 
 
 {% block main-left %}  
-<div class="container">
+<section>
     <h1>最新动态</h1>
-    <ul class="items">
+    <ul class="feeds">
         {% for event in events %}
-        <li class="item">
+        <li class="feed">
             <a href="{% url "main.views.show_people" event.user.id %}" class="avatar"><img src="/media/avatar/default.jpg"></a>
             <div class="question-main">
                 <div class="source">
@@ -70,7 +70,6 @@
                 </div>
                 <div class="comments-wrapper none">
                     <ul class="comments">
-                        <!-- <script class="comments-template" type="text/x-handlebars-template"> -->
                         {% for comment in event.comments %}
                         <li class="comment">
                             <a href="{% url "main.views.show_people" comment.user.id %}" class="avatar small"><img src="/media/avatar/default.jpg"></a>
@@ -103,7 +102,6 @@
                         {% empty %}
                         <p class="no-comment">暂无评论</p>
                         {% endfor %}
-                        <!-- </script> -->
                     </ul>
                     <form class="comment-form J_comment_new" method="POST" action="{% url "main.views.new_comment" %}">
                         {% csrf_token %}
@@ -118,7 +116,7 @@
         </li>
         {% endfor %}
     </ul>
-</div>
+</section>
 
 <!-- js template -->
 {% verbatim %}

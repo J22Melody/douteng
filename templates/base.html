@@ -2,7 +2,7 @@
 <html>
 <head>  
 
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">  
+    <meta charset="utf-8">  
 
     <title>{% block title %}{{ title|default:"" }}{% endblock %}</title>  
 
@@ -21,9 +21,8 @@
             <a href="{% url "main.views.index" %}" id="logo"></a>
             <nav id="nav">
                 <a href="{% url "main.views.index" %}">首页</a>
-                <a href="{% if request.user.is_authenticated %}{% url "main.views.show_people" request.user.id %}{% else %}{% url "main.views.login_view" %}{% endif %}">我的豆藤</a>
-                <a href="{% url "main.views.topic" %}">话题</a>
                 <a href="{% url "main.views.new_question" %}">提问</a>
+                <a href="{% if request.user.is_authenticated %}{% url "main.views.show_people" request.user.id %}{% else %}{% url "main.views.login_view" %}{% endif %}">我的豆藤</a>
             </nav>
             <div id="info">
             {% if request.user.is_authenticated %}              
@@ -45,8 +44,8 @@
     </header>
 
     <div id="main">
-        <section id="main-left">{% block main-left %}{% endblock %}</section>
-        <aside id="main-right">{% block main-right %}{% endblock %} </aside>
+        <div id="main-left">{% block main-left %}{% endblock %}</div>
+        <div id="main-right">{% block main-right %}{% endblock %} </div>
         {% block main %}{% endblock %} 
     </div>
       

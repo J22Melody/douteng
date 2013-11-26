@@ -1,12 +1,80 @@
-// container
 
-.container{
+// section
+
+section{
     margin-bottom: 40px;
 
     h1{
         font-size: 16px;
         color: #666;
         font-weight: 700;
+    }
+}
+
+// comments
+
+.comments-wrapper{
+    margin-left: 38px;
+    margin-top: 6px;
+    border: 1px solid #ddd;
+    @include border-radius(4px);
+    padding: 12px;
+
+    .comments{
+        border-bottom: 1px solid #ddd;
+
+        .comment{
+            margin-bottom: 16px;
+
+            .comment-main{
+                margin-left: 36px;
+                line-height: 12px;
+
+                .content{
+                    background: #fff;
+                    margin: 0;
+                    padding: 0;
+                }
+
+                .addtion{
+                    margin: 0;
+                    padding: 0;
+                    margin-top: 8px;
+                }
+
+                .comment-form.small{
+                    input{
+                        width: 394px;
+                        height: 24px;
+                    }
+                }
+            }
+        }
+
+        .no-comment{
+            margin-left: 222px;
+            margin-bottom: 12px;
+            color: #aaa;
+        }
+    }
+
+    .comment-form{
+        margin-top: 12px;
+
+        input{
+            width: 430px;
+            border: 1px solid #c9c9c9;
+            padding-left: 6px;
+            @include border-radius(3px);
+
+            &:focus{
+                @include box-shadow(0 0 7px #ddd);
+            }
+        }
+
+        button{
+            margin-left: 20px;
+        }
     }
 }
 

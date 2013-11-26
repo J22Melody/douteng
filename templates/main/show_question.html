@@ -3,9 +3,8 @@
 {% block title %} 豆藤 {% endblock %} 
 
 {% block main-left %}  
-<div class="container">
-    
-    <h1>除了恐惧和欲望，还有什么可以激励自己长期地努力？（8个回答）</h1>
+<section>
+    <h1>{{ question.title }}（{{ question.answer_set.all|length }}个回答）</h1>
     <ul class="topic-list clearfix">
         {% for topic in question.topic.all %}
         <li><a href="" class="topic">[{{ topic.title }}]</a></li>
@@ -36,7 +35,7 @@
         </li>
         {% endfor %}
     </ul>
-</div>
+</section>
 {% endblock %}
 
 {% block main-right %}   

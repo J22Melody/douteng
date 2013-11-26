@@ -1,64 +1,5 @@
-@charset "utf-8";
 
-// Reset the box-sizing
-
-*,
-*:before,
-*:after {
-  @include box-sizing(border-box);
-}
-
-// Body reset
-
-body {
-  font-family: $font-family-base;
-  font-size: $font-size-base;
-  line-height: $line-height-base;
-  color: $text-color;
-  background-color: $body-bg;
-  width: 100%;
-  min-width: 960px;
-  min-height: 100%;
-  position: relative;
-}
-
-// Reset fonts for relevant elements
-input,
-button,
-select,
-textarea {
-  font-family: inherit;
-  font-size: inherit;
-  line-height: inherit;
-}
-
-// Reset unusual Firefox-on-Android default style.
-//
-// See https://github.com/necolas/normalize.css/issues/214
-
-button,
-input,
-select[multiple],
-textarea {
-  background-image: none;
-  outline: none; 
-}
-
-// Links
-
-a {
-  color: $link-color;
-  text-decoration: none;
-  cursor: pointer;
-
-  &:hover,
-  &:focus {
-    color: $link-hover-color;
-    background: $link-hover-background;
-}
-}
-
-// Scaffolding
+// Scaffolding for base.html
 
 #header{
     width: 100%;
@@ -69,12 +10,12 @@ a {
     top: 0;
 
     #inner-header{
-        @include bc;
+        @extend .bc;
         width: 960px;
         position: relative;
 
         #logo{
-            @include fl;
+            @extend .fl;
             display: block;
             width: 144px;
             height: 33px;
@@ -83,7 +24,7 @@ a {
         }
 
         #nav{
-            @include fl;
+            @extend .fl;
             margin-left: 40px;
             margin-top: 22px;
 
@@ -100,7 +41,7 @@ a {
         }
 
         #info{
-            @include fr;
+            @extend .fr;
             margin-top: 24px;
 
             a{
@@ -110,7 +51,7 @@ a {
     }
 
     #search-wrapper{
-        @include bc;
+        @extend .bc;
         position: relative;
         top: 70px;
         z-index: 999;
@@ -158,21 +99,19 @@ a {
 
             input[type=submit]{
                 border: none;
-                width: 24px;
-                height: 24px;
                 position: absolute;
                 cursor: pointer;
                 top: 6px;
                 right: 10px;
-                background: url("/static/images/search.png") no-repeat center;
+                @extend .icons-search;
             }
         }            
     }
 }
 
 #main{
-    @include bc;
-    @include clearfix;
+    @extend .bc;
+    @extend .clearfix;
     width: 960px;
     position: relative;
     margin-top: 120px;
@@ -180,31 +119,30 @@ a {
     min-height: 640px;
 
     #main-left{
-        @include fl;
+        @extend .fl;
         width: 640px;
     }
 
     #main-right{
-        @include fr;
+        @extend .fr;
         width: 260px;
     }
 }
 
 #footer{
-    @include bc;
+    @extend .bc;
     width: 960px;
     position: relative;
     bottom: 20px;
-    border-top: 1px dotted #ccc;
     height: 36px;
     line-height: 36px;
 
     #footer-left{
-        @include fl;
+        @extend .fl;
     }
 
     #footer-right{
-        @include fr;
+        @extend .fr;
     }
 }
 

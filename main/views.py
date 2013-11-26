@@ -11,6 +11,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.serializers.json import DjangoJSONEncoder
 from django.core import serializers
 from datetime import timedelta
+from django.core.urlresolvers import reverse
 
 from lib import *
 from models import *
@@ -106,7 +107,7 @@ def follow_question(request,question_id):
     question = Question.objects.get(id=question_id)
     user = request.user
     question.follower.add(user)
-    return HttpResponse(json.dumps({"success":True,"text":"取消关注","href":"/question/"+question_id+"/unfollow/","num":""}),mimetype="application/json")
+    return HttpResponse(json.dumps({"success":True,"text":"取消关注","href":reverse("main.views.unfollow_question",args=[question_id,]),"num":""}),mimetype="application/json")
 
 @ajax_view
 @transaction.commit_on_success
@@ -114,7 +115,7 @@ def unfollow_question(request,question_id):
     question = Question.objects.get(id=question_id)
     user = request.user
     question.follower.remove(user)
-    return HttpResponse(json.dumps({"success":True,"text":"关注","href":"/question/"+question_id+"/follow/","num":str(len(question.follower.all()))+"个"}),mimetype="application/json")
+    return HttpResponse(json.dumps({"success":True,"text":"关注","href":reverse("main.views.follow_question",args=[question_id,]),"num":str(len(question.follower.all()))+"个"}),mimetype="application/json")
 
 @ajax_view
 @transaction.commit_on_success
@@ -122,7 +123,7 @@ def collect_question(request,question_id):
     question = Question.objects.get(id=question_id)
     user = request.user
     question.collector.add(user)
-    return HttpResponse(json.dumps({"success":True,"text":"取消收藏","href":"/question/"+question_id+"/uncollect/","num":""}),mimetype="application/json")
+    return HttpResponse(json.dumps({"success":True,"text":"取消收藏","href":reverse("main.views.uncollect_question",args=[question_id,]),"num":""}),mimetype="application/json")
 
 @ajax_view
 @transaction.commit_on_success
@@ -130,7 +131,7 @@ def uncollect_question(request,question_id):
     question = Question.objects.get(id=question_id)
     user = request.user
     question.collector.remove(user)
-    return HttpResponse(json.dumps({"success":True,"text":"收藏","href":"/question/"+question_id+"/collect/","num":str(len(question.collector.all()))+"个"}),mimetype="application/json")
+    return HttpResponse(json.dumps({"success":True,"text":"收藏","href":reverse("main.views.collect_question",args=[question_id,]),"num":str(len(question.collector.all()))+"个"}),mimetype="application/json")
 
 def show_people(request):  
     pass
@@ -186,7 +187,7 @@ def new_eva(request,answer_id,eva_kind):
     eva = Evaluation(answer=answer,user=user,kind=eva_kind)
     eva.save()
     kind_des = Evaluation.KIND[int(eva_kind)][1]
-    return HttpResponse(json.dumps({"success":True,"text":"取消"+kind_des,"href":"/answer/"+answer_id+"/eva/"+str(eva.id)+"/del/","num":""}),mimetype="application/json")
+    return HttpResponse(json.dumps({"success":True,"text":"取消"+kind_des,"href":reverse("main.views.del_eva",args=[answer_id,eva.id]),"num":""}),mimetype="application/json")
 
 @ajax_view
 @transaction.commit_on_success
@@ -197,7 +198,7 @@ def del_eva(request,answer_id,eva_id):
     kind_des = Evaluation.KIND[eva_kind][1]
     eva.delete()
     num = str(len(answer.evaluation_set.filter(kind=eva_kind)))
-    return HttpResponse(json.dumps({"success":True,"text":kind_des,"href":"/answer/"+answer_id+"/eva/"+str(eva_kind)+"/new/","num":num+"个"}),mimetype="application/json")
+    return HttpResponse(json.dumps({"success":True,"text":kind_des,"href":reverse("main.views.new_eva",args=[answer_id,eva.kind]),"num":num+"个"}),mimetype="application/json")
 
 @ajax_view(method="POST")
 @transaction.commit_on_success
