@@ -14,7 +14,8 @@
         {{ question.content }}
     </div>
     <div class="question-operation">
-        
+        <span>{% if not question.followed %}{{ question.follower.all|length }}个{% endif %}</span><a class="J_operation" href="{% if question.followed %}{% url "main.views.unfollow_question" question.id %}{% else %}{% url "main.views.follow_question" question.id %}{% endif %}">{% if question.followed %}取消{% endif %}关注</a>
+        <span>{% if not question.collected %}{{ question.collector.all|length }}个{% endif %}</span><a class="J_operation" href="{% if question.collected %}{% url "main.views.uncollect_question" question.id %}{% else %}{% url "main.views.collect_question" question.id %}{% endif %}">{% if question.collected %}取消{% endif %}收藏</a>
         <span class="addtion">
             <a class="J_comment_add comment-add">
                 {% if question.comments.all %}{{ question.comments.all|length }}条{% else %}添加{% endif %}评论
@@ -67,7 +68,7 @@
         </div>
     </div>
     <ul class="answers">
-        {% for answer in question.answer_set.all %}
+        {% for answer in question.answers %}
         <li class="answer">
             <div class="source clearfix">
                 <a href="" class="avatar fl"><img src="/media/avatar/default.jpg"></a>
@@ -80,7 +81,9 @@
             {{ answer.content }}                
             </div>
             <div class="operation">
-                <a href="">赞</a><a href="">赞</a><a href="">赞</a>
+                <span>{% if not answer.gooded %}{{ answer.goods|length }}个{% endif %}</span><a class="J_operation" href="{% if answer.gooded %}{% url "main.views.del_eva" answer.id answer.gooded_id %}{% else %}{% url "main.views.new_eva" answer.id 0 %}{% endif %}">{% if answer.gooded %}取消{% endif %}赞同</a>
+                <span>{% if not answer.baded %}{{ answer.bads|length }}个{% endif %}</span><a class="J_operation" href="{% if answer.baded %}{% url "main.views.del_eva" answer.id answer.baded_id %}{% else %}{% url "main.views.new_eva" answer.id 1 %}{% endif %}">{% if answer.baded %}取消{% endif %}反对</a>
+                <span>{% if not answer.sowhated %}{{ answer.sowhats|length }}个{% endif %}</span><a class="J_operation" href="{% if answer.sowhated %}{% url "main.views.del_eva" answer.id answer.sowhated_id %}{% else %}{% url "main.views.new_eva" answer.id 2 %}{% endif %}">{% if answer.sowhated %}取消{% endif %}不屑一顾</a>
                 <span class="addtion">
                     <a class="J_comment_add comment-add">
                         {% if answer.comments.all %}{{ answer.comments.all|length }}条{% else %}添加{% endif %}评论
@@ -135,6 +138,16 @@
         </li>
         {% endfor %}
     </ul>
+    <div id="your-answer">
+        <h3>你的回答</h3>
+        <form>
+            {% load wysiwyg %}
+            {% wysiwyg_setup %}
+            <textarea name="answer" id="answer-textarea"></textarea>
+            {% wysiwyg_editor "answer-textarea" %}
+            <button type="submit" class="btn comment-submit">加上去</button>
+        </form>
+    </div>
 </section>
 
 <!-- js template -->

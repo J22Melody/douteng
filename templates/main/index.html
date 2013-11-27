@@ -64,9 +64,9 @@
                             </a>
                         {% endif %}
                         {% if event.kind == 1 or event.kind == 2 %}
-                            <span>{% if not event.gooded %}{{ event.good_num }}个{% endif %}</span><a class="J_operation" href="{% if event.gooded %}{% url "main.views.del_eva" event.answer.id event.gooded %}{% else %}{% url "main.views.new_eva" event.answer.id 0 %}{% endif %}">{% if event.gooded %}取消{% endif %}赞同</a>
-                            <span>{% if not event.baded %}{{ event.bad_num }}个{% endif %}</span><a class="J_operation" href="{% if event.baded %}{% url "main.views.del_eva" event.answer.id event.baded %}{% else %}{% url "main.views.new_eva" event.answer.id 1 %}{% endif %}">{% if event.baded %}取消{% endif %}反对</a>
-                            <span>{% if not event.sowhated %}{{ event.sowhat_num }}个{% endif %}</span><a class="J_operation" href="{% if event.sowhated %}{% url "main.views.del_eva" event.answer.id event.sowhated %}{% else %}{% url "main.views.new_eva" event.answer.id 2 %}{% endif %}">{% if event.sowhated %}取消{% endif %}不屑一顾</a>
+                            <span>{% if not event.gooded %}{{ event.good_num }}个{% endif %}</span><a class="J_operation" href="{% if event.gooded %}{% url "main.views.del_eva" event.answer.id event.gooded_id %}{% else %}{% url "main.views.new_eva" event.answer.id 0 %}{% endif %}">{% if event.gooded %}取消{% endif %}赞同</a>
+                            <span>{% if not event.baded %}{{ event.bad_num }}个{% endif %}</span><a class="J_operation" href="{% if event.baded %}{% url "main.views.del_eva" event.answer.id event.baded_id %}{% else %}{% url "main.views.new_eva" event.answer.id 1 %}{% endif %}">{% if event.baded %}取消{% endif %}反对</a>
+                            <span>{% if not event.sowhated %}{{ event.sowhat_num }}个{% endif %}</span><a class="J_operation" href="{% if event.sowhated %}{% url "main.views.del_eva" event.answer.id event.sowhated_id %}{% else %}{% url "main.views.new_eva" event.answer.id 2 %}{% endif %}">{% if event.sowhated %}取消{% endif %}不屑一顾</a>
                             <a class="J_comment_add comment-add">
                                 {% if event.comment_num %}{{ event.comment_num }}条{% else %}添加{% endif %}评论
                                 <span class="icons-upArrow none"></span>

@@ -135,6 +135,8 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.admin',
     'main',
+    'django_wysiwyg',
+    'tinymce',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
 )
@@ -171,4 +173,6 @@ LOGGING = {
 }
 
 LOGIN_URL = '/login/'
+
+DJANGO_WYSIWYG_FLAVOR = "tinymce"
 

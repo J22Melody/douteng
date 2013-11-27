@@ -45,16 +45,19 @@ def index(request):
             event.good_num = len(goods)
             event.bad_num = len(bads)
             event.sowhat_num = len(sowhats)
+            event.gooded = True
+            event.baded = True
+            event.sowhated = True
             try:
-                event.gooded = goods.get(user_id=request.user.id).id
+                event.gooded_id = goods.get(user_id=request.user.id).id
             except ObjectDoesNotExist:
                 event.gooded = False
             try:
-                event.baded = bads.get(user_id=request.user.id).id
+                event.baded_id = bads.get(user_id=request.user.id).id
             except ObjectDoesNotExist:
                 event.baded = False
             try:
-                event.sowhated = sowhats.get(user_id=request.user.id).id
+                event.sowhated_id = sowhats.get(user_id=request.user.id).id
             except ObjectDoesNotExist:
                 event.sowhated = False
             event.comments = event.answer.comments.all()          
@@ -87,6 +90,28 @@ def logout_view(request):
 
 def show_question(request,question_id):
     question = Question.objects.get(id=question_id)
+    question.followed = question.follower.filter(id=request.user.id).exists()
+    question.collected = question.collector.filter(id=request.user.id).exists()
+    question.answers = question.answer_set.all()
+    for answer in question.answers:
+        answer.goods = answer.evaluation_set.filter(kind=0)
+        answer.bads = answer.evaluation_set.filter(kind=1)
+        answer.sowhats = answer.evaluation_set.filter(kind=2)
+        answer.gooded = True
+        answer.baded = True
+        answer.sowhated = True
+        try:
+            answer.gooded_id = answer.goods.get(user_id=request.user.id).id
+        except ObjectDoesNotExist:
+            answer.gooded = False
+        try:
+            answer.baded_id = answer.bads.get(user_id=request.user.id).id
+        except ObjectDoesNotExist:
+            answer.baded = False
+        try:
+            answer.sowhated_id = answer.sowhats.get(user_id=request.user.id).id
+        except ObjectDoesNotExist:
+            answer.sowhated = False
     return render_to_response('main/show_question.html',context_instance=RequestContext(request,{'title':'show_question','question':question}))
 
 @transaction.commit_on_success
@@ -184,8 +209,11 @@ def unfollow_topic(request):
 def new_eva(request,answer_id,eva_kind):  
     answer = Answer.objects.get(id=answer_id)
     user = request.user
-    eva = Evaluation(answer=answer,user=user,kind=eva_kind)
-    eva.save()
+    if Evaluation.objects.filter(answer_id=answer_id,user_id=user.id,kind=eva_kind).exists():
+        eva = Evaluation.objects.get(answer_id=answer_id,user_id=user.id,kind=eva_kind)
+    else:
+        eva = Evaluation(answer=answer,user=user,kind=eva_kind)
+        eva.save()
     kind_des = Evaluation.KIND[int(eva_kind)][1]
     return HttpResponse(json.dumps({"success":True,"text":"取消"+kind_des,"href":reverse("main.views.del_eva",args=[answer_id,eva.id]),"num":""}),mimetype="application/json")
 
@@ -193,7 +221,6 @@ def new_eva(request,answer_id,eva_kind):
 @transaction.commit_on_success
 def del_eva(request,answer_id,eva_id):  
     answer = Answer.objects.get(id=answer_id)
-    eva = Evaluation.objects.get(id=eva_id)
     eva_kind = eva.kind
     kind_des = Evaluation.KIND[eva_kind][1]
     eva.delete()
