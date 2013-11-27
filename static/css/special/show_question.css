@@ -69,10 +69,14 @@ h1 {
 /* line 65, ../../sass/special/show_question.scss */
 #your-answer h3 {
   font-size: 15px;
+  margin-bottom: 10px;
 }
-/* line 70, ../../sass/special/show_question.scss */
+/* line 71, ../../sass/special/show_question.scss */
 #your-answer form textarea {
   width: 100%;
   height: 100px;
-  margin: 10px 0;
+}
+/* line 76, ../../sass/special/show_question.scss */
+#your-answer form button {
+  margin-top: 16px;
 }

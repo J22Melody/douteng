@@ -176,3 +176,4 @@ LOGIN_URL = '/login/'
 
 DJANGO_WYSIWYG_FLAVOR = "tinymce"
 
+

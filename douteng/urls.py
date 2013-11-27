@@ -25,6 +25,7 @@ urlpatterns = patterns('',
     url(r'^question/(?P<question_id>\d+)/unfollow/$', unfollow_question), 
     url(r'^question/(?P<question_id>\d+)/collect/$', collect_question), 
     url(r'^question/(?P<question_id>\d+)/uncollect/$', uncollect_question), 
+    url(r'^question/(?P<question_id>\d+)/answer/$', answer_question), 
 
     url(r'^people/(?P<people_id>\d+)/$', show_people), 
     url(r'^people/new/$', new_people), 

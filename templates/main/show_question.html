@@ -11,7 +11,7 @@
         {% endfor %}
     </ul>
     <div class="question-content">
-        {{ question.content }}
+        {{ question.content|safe }}
     </div>
     <div class="question-operation">
         <span>{% if not question.followed %}{{ question.follower.all|length }}个{% endif %}</span><a class="J_operation" href="{% if question.followed %}{% url "main.views.unfollow_question" question.id %}{% else %}{% url "main.views.follow_question" question.id %}{% endif %}">{% if question.followed %}取消{% endif %}关注</a>
@@ -78,7 +78,7 @@
                 </div>  
             </div>
             <div class="content">   
-            {{ answer.content }}                
+            {{ answer.content|safe }}                
             </div>
             <div class="operation">
                 <span>{% if not answer.gooded %}{{ answer.goods|length }}个{% endif %}</span><a class="J_operation" href="{% if answer.gooded %}{% url "main.views.del_eva" answer.id answer.gooded_id %}{% else %}{% url "main.views.new_eva" answer.id 0 %}{% endif %}">{% if answer.gooded %}取消{% endif %}赞同</a>
@@ -140,10 +140,11 @@
     </ul>
     <div id="your-answer">
         <h3>你的回答</h3>
-        <form>
+        <form method="POST" action="{% url 'main.views.answer_question' question.id %}">
+            {% csrf_token %}
             {% load wysiwyg %}
             {% wysiwyg_setup %}
-            <textarea name="answer" id="answer-textarea"></textarea>
+            <textarea name="content" id="answer-textarea"></textarea>
             {% wysiwyg_editor "answer-textarea" %}
             <button type="submit" class="btn comment-submit">加上去</button>
         </form>

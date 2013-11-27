@@ -158,6 +158,15 @@ def uncollect_question(request,question_id):
     question.collector.remove(user)
     return HttpResponse(json.dumps({"success":True,"text":"收藏","href":reverse("main.views.collect_question",args=[question_id,]),"num":str(len(question.collector.all()))+"个"}),mimetype="application/json")
 
+@login_required
+@transaction.commit_on_success
+def answer_question(request,question_id):
+    user = request.user
+    answer = Answer(question_id=question_id,answerer_id=user.id,content=request.POST['content'])
+    answer.save()
+    print 'save'
+    return HttpResponseRedirect('/question/'+question_id+'/')
+
 def show_people(request):  
     pass
 
@@ -221,6 +230,7 @@ def new_eva(request,answer_id,eva_kind):
 @transaction.commit_on_success
 def del_eva(request,answer_id,eva_id):  
     answer = Answer.objects.get(id=answer_id)
+    eva = Evaluation.objects.get(id=eva_id)
     eva_kind = eva.kind
     kind_des = Evaluation.KIND[eva_kind][1]
     eva.delete()

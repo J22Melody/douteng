@@ -38,16 +38,16 @@
                     <h2><a href="{% url "main.views.show_question" event.question.id %}">{{ event.title }}</a></h2>
                     {% if event.content|length > 200 %}
                     <p class="answer none">
-                        {{ event.content }}
+                        {{ event.content|safe }}
                         <a class="packUp">收起</a>
                     </p>
                     <p class="summary">
-                        {{ event.content|slice:"200" }}{% if value|length > 200 %}...{% endif %} 
+                        {{ event.content|safe|slice:"200" }}{% if event.content|length > 200 %}...{% endif %} 
                         <a class="showAll">显示全部</a>
                     </p>
                     {% else %}
                     <p class="answer">
-                        {{ event.content }}
+                        {{ event.content|safe }}
                     </p>
                     {% endif %}
                 </div>
