@@ -62,7 +62,8 @@ require(['jquery'], function($){
 
 require(['jquery','handlebars'], function($){
     $('.J_comment_add').click(function(){
-        var wrapper = $(this).closest('.addtion').next().toggleClass('none');
+        $(this).find('.icons-upArrow').toggleClass('none');
+        $(this).closest('.addtion').next().toggleClass('none');
         return false;
     });
 
@@ -84,6 +85,7 @@ require(['jquery','handlebars'], function($){
                     var html = template(context);
                     that.closest('.comments-wrapper').find('.comments').append(html);
                     that.find('input[name="content"]').val('');
+                    that.prev().find('.no-comment').remove();
                 }
             },
             cache: false,

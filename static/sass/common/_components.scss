@@ -12,19 +12,33 @@ section{
 }
 
 // comments
+.comment-add{
+    position: relative;
+
+    .icons-upArrow{
+        position: absolute;
+        top: 23px;
+        left: 18px;
+    }
+}
+
 
 .comments-wrapper{
-    margin-left: 38px;
-    margin-top: 6px;
     border: 1px solid #ddd;
     @include border-radius(4px);
     padding: 12px;
+    margin-top: 12px;
 
     .comments{
         border-bottom: 1px solid #ddd;
+        position: relative;
 
         .comment{
             margin-bottom: 16px;
+
+            .avatar{
+                float: left;
+            }
 
             .comment-main{
                 margin-left: 36px;
@@ -40,6 +54,11 @@ section{
                     margin: 0;
                     padding: 0;
                     margin-top: 8px;
+
+                    .time{
+                        color: #999;
+                        margin-right: 12px;
+                    }
                 }
 
                 .comment-form.small{
@@ -52,7 +71,8 @@ section{
         }
 
         .no-comment{
-            margin-left: 222px;
+            position: relative;
+            left: 46%;
             margin-bottom: 12px;
             color: #aaa;
         }
@@ -62,7 +82,7 @@ section{
         margin-top: 12px;
 
         input{
-            width: 430px;
+            width: 84%;
             border: 1px solid #c9c9c9;
             padding-left: 6px;
             @include border-radius(3px);

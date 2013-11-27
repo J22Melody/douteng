@@ -63,16 +63,23 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
   display: block;
 }
 
-/* line 42, icons/*.png */
-.icons-sprite, .icons-search, #header #search-wrapper #search input[type=submit] {
-  background: url('/static/images/icons-s064af4906d.png') no-repeat;
+/* line 50, icons/*.png */
+.icons-sprite, .icons-search, #header #search-wrapper #search input[type=submit], .icons-upArrow {
+  background: url('/static/images/icons-s2060f007c2.png') no-repeat;
 }
 
 /* line 60, d:/Ruby200/lib/ruby/gems/2.0.0/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/utilities/sprites/_base.scss */
 .icons-search, #header #search-wrapper #search input[type=submit] {
-  background-position: 0 0;
+  background-position: 0 -7px;
   height: 24px;
   width: 24px;
+}
+
+/* line 60, d:/Ruby200/lib/ruby/gems/2.0.0/gems/compass-0.12.2/frameworks/compass/stylesheets/compass/utilities/sprites/_base.scss */
+.icons-upArrow {
+  background-position: 0 0;
+  height: 7px;
+  width: 11px;
 }
 
 /* line 7, ../../sass/common/_base.scss */
@@ -363,10 +370,19 @@ section h1 {
   font-weight: 700;
 }
 
-/* line 16, ../../sass/common/_components.scss */
+/* line 15, ../../sass/common/_components.scss */
+.comment-add {
+  position: relative;
+}
+/* line 18, ../../sass/common/_components.scss */
+.comment-add .icons-upArrow {
+  position: absolute;
+  top: 23px;
+  left: 18px;
+}
+
+/* line 26, ../../sass/common/_components.scss */
 .comments-wrapper {
-  margin-left: 38px;
-  margin-top: 6px;
   border: 1px solid #ddd;
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
@@ -374,50 +390,62 @@ section h1 {
   -o-border-radius: 4px;
   border-radius: 4px;
   padding: 12px;
+  margin-top: 12px;
 }
-/* line 23, ../../sass/common/_components.scss */
+/* line 32, ../../sass/common/_components.scss */
 .comments-wrapper .comments {
   border-bottom: 1px solid #ddd;
+  position: relative;
 }
-/* line 26, ../../sass/common/_components.scss */
+/* line 36, ../../sass/common/_components.scss */
 .comments-wrapper .comments .comment {
   margin-bottom: 16px;
 }
-/* line 29, ../../sass/common/_components.scss */
+/* line 39, ../../sass/common/_components.scss */
+.comments-wrapper .comments .comment .avatar {
+  float: left;
+}
+/* line 43, ../../sass/common/_components.scss */
 .comments-wrapper .comments .comment .comment-main {
   margin-left: 36px;
   line-height: 12px;
 }
-/* line 33, ../../sass/common/_components.scss */
+/* line 47, ../../sass/common/_components.scss */
 .comments-wrapper .comments .comment .comment-main .content {
   background: #fff;
   margin: 0;
   padding: 0;
 }
-/* line 39, ../../sass/common/_components.scss */
+/* line 53, ../../sass/common/_components.scss */
 .comments-wrapper .comments .comment .comment-main .addtion {
   margin: 0;
   padding: 0;
   margin-top: 8px;
 }
-/* line 46, ../../sass/common/_components.scss */
+/* line 58, ../../sass/common/_components.scss */
+.comments-wrapper .comments .comment .comment-main .addtion .time {
+  color: #999;
+  margin-right: 12px;
+}
+/* line 65, ../../sass/common/_components.scss */
 .comments-wrapper .comments .comment .comment-main .comment-form.small input {
   width: 394px;
   height: 24px;
 }
-/* line 54, ../../sass/common/_components.scss */
+/* line 73, ../../sass/common/_components.scss */
 .comments-wrapper .comments .no-comment {
-  margin-left: 222px;
+  position: relative;
+  left: 46%;
   margin-bottom: 12px;
   color: #aaa;
 }
-/* line 61, ../../sass/common/_components.scss */
+/* line 81, ../../sass/common/_components.scss */
 .comments-wrapper .comment-form {
   margin-top: 12px;
 }
-/* line 64, ../../sass/common/_components.scss */
+/* line 84, ../../sass/common/_components.scss */
 .comments-wrapper .comment-form input {
-  width: 430px;
+  width: 84%;
   border: 1px solid #c9c9c9;
   padding-left: 6px;
   -webkit-border-radius: 3px;
@@ -426,29 +454,29 @@ section h1 {
   -o-border-radius: 3px;
   border-radius: 3px;
 }
-/* line 70, ../../sass/common/_components.scss */
+/* line 90, ../../sass/common/_components.scss */
 .comments-wrapper .comment-form input:focus {
   -webkit-box-shadow: 0 0 7px #dddddd;
   -moz-box-shadow: 0 0 7px #dddddd;
   box-shadow: 0 0 7px #dddddd;
 }
-/* line 75, ../../sass/common/_components.scss */
+/* line 95, ../../sass/common/_components.scss */
 .comments-wrapper .comment-form button {
   margin-left: 20px;
 }
 
-/* line 83, ../../sass/common/_components.scss */
+/* line 103, ../../sass/common/_components.scss */
 .avatar {
   display: inline-block;
   width: 48px;
   height: 48px;
 }
-/* line 88, ../../sass/common/_components.scss */
+/* line 108, ../../sass/common/_components.scss */
 .avatar.small {
   width: 26px;
   height: 26px;
 }
-/* line 93, ../../sass/common/_components.scss */
+/* line 113, ../../sass/common/_components.scss */
 .avatar img {
   width: 100%;
   height: 100%;

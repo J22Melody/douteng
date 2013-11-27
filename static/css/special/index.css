@@ -42,26 +42,29 @@
 .feeds .feed .question-main .addtion {
   margin-top: 14px;
   margin-left: 38px;
-  padding-bottom: 8px;
 }
-/* line 49, ../../sass/special/index.scss */
+/* line 48, ../../sass/special/index.scss */
 .feeds .feed .question-main .addtion .time {
   color: #999;
   margin-right: 12px;
 }
-/* line 54, ../../sass/special/index.scss */
+/* line 53, ../../sass/special/index.scss */
 .feeds .feed .question-main .addtion .operation {
   color: #37a;
 }
-/* line 57, ../../sass/special/index.scss */
+/* line 56, ../../sass/special/index.scss */
 .feeds .feed .question-main .addtion .operation a {
   margin-right: 6px;
 }
-/* line 60, ../../sass/special/index.scss */
+/* line 59, ../../sass/special/index.scss */
 .feeds .feed .question-main .addtion .operation a:hover {
   color: #fff;
 }
-/* line 69, ../../sass/special/index.scss */
+/* line 66, ../../sass/special/index.scss */
+.feeds .feed .question-main .comments-wrapper {
+  margin-left: 24px;
+}
+/* line 72, ../../sass/special/index.scss */
 .feeds .feed:last-child .addtion {
   border-bottom: none;
 }

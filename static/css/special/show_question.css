@@ -20,30 +20,35 @@ h1 {
   padding: 20px 0;
 }
 
-/* line 20, ../../sass/special/show_question.scss */
+/* line 21, ../../sass/special/show_question.scss */
+.question-operation a {
+  margin-right: 6px;
+}
+
+/* line 26, ../../sass/special/show_question.scss */
 .answers {
   margin-top: 20px;
 }
-/* line 23, ../../sass/special/show_question.scss */
+/* line 29, ../../sass/special/show_question.scss */
 .answers .answer {
   padding: 20px 0;
   border-top: 1px solid #ddd;
 }
-/* line 28, ../../sass/special/show_question.scss */
+/* line 34, ../../sass/special/show_question.scss */
 .answers .answer .source .avatar {
   margin-right: 12px;
 }
-/* line 32, ../../sass/special/show_question.scss */
+/* line 38, ../../sass/special/show_question.scss */
 .answers .answer .source .time {
   color: #999;
 }
-/* line 37, ../../sass/special/show_question.scss */
+/* line 43, ../../sass/special/show_question.scss */
 .answers .answer .content {
   color: #222;
   line-height: 1.8;
   padding: 20px 0;
 }
-/* line 44, ../../sass/special/show_question.scss */
+/* line 50, ../../sass/special/show_question.scss */
 .answers .answer .operation a {
-  margin-right: 10px;
+  margin-right: 6px;
 }

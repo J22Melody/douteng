@@ -14,7 +14,57 @@
         {{ question.content }}
     </div>
     <div class="question-operation">
-        <a href="">添加评论</a>
+        
+        <span class="addtion">
+            <a class="J_comment_add comment-add">
+                {% if question.comments.all %}{{ question.comments.all|length }}条{% else %}添加{% endif %}评论
+                <span class="icons-upArrow none"></span>
+            </a>
+        </span>
+        <div class="comments-wrapper none">
+            <ul class="comments">
+                {% for comment in question.comments.all %}
+                <li class="comment">
+                    <a href="{% url "main.views.show_people" comment.user.id %}" class="avatar small"><img src="/media/avatar/default.jpg"></a>
+                    <div class="comment-main">
+                        <div class="content">
+                            {% if comment.target %}
+                            <a href="{% url "main.views.show_people" comment.target.id %}">@{{ comment.target.username }}</a>
+                            {% endif %}
+                            {{ comment.content }}
+                            &nbsp-&nbsp<a href="{% url "main.views.show_people" comment.user.id %}" class="user">{{ comment.user.username }}</a>{% ifequal comment.user.id question.asker.id %}（作者）{% endifequal %}
+                        </div>
+                        <div class="addtion">
+                            <span class="time">{{ comment.create_time|date:"Y年m月d日 H时i分" }}</span>
+                            {% ifequal comment.user.id request.user.id %}
+                            <a href="{% url "main.views.del_comment" comment.id %}" class="J_comment_del">删除</a>
+                            {% else %}
+                            <a class="J_comment_add">回复</a>
+                            {% endifequal %}      
+                        </div>
+                        <form class="comment-form small J_comment_new none" method="POST" action="{% url "main.views.new_comment" %}">
+                            {% csrf_token %}
+                            <input name="father_id" type="hidden" value="{{ question.id }}">
+                            <input name="father_type" type="hidden" value="0">
+                            <input name="target_id" type="hidden" value="{{ comment.user.id }}" >
+                            <input name="content" type="text" placeholder="@{{ comment.user.username }}">
+                            <button type="submit" class="btn comment-submit">提交</button>
+                        </form>
+                    </div> 
+                </li>
+                {% empty %}
+                <p class="no-comment">暂无评论</p>
+                {% endfor %}
+            </ul>
+            <form class="comment-form J_comment_new" method="POST" action="{% url "main.views.new_comment" %}">
+                {% csrf_token %}
+                <input name="father_id" type="hidden" value="{{ question.id }}">
+                <input name="father_type" type="hidden" value="0">
+                <input name="target_id" type="hidden" value="" >
+                <input name="content" type="text" placeholder="写下你的评论...">
+                <button type="submit" class="btn comment-submit">提交</button>
+            </form>
+        </div>
     </div>
     <ul class="answers">
         {% for answer in question.answer_set.all %}
@@ -30,12 +80,86 @@
             {{ answer.content }}                
             </div>
             <div class="operation">
-                <a href="">赞</a><a href="">赞</a><a href="">赞</a><a href="">添加评论</a>
+                <a href="">赞</a><a href="">赞</a><a href="">赞</a>
+                <span class="addtion">
+                    <a class="J_comment_add comment-add">
+                        {% if answer.comments.all %}{{ answer.comments.all|length }}条{% else %}添加{% endif %}评论
+                        <span class="icons-upArrow none"></span>
+                    </a>
+                </span>
+                <div class="comments-wrapper none">
+                    <ul class="comments">
+                        {% for comment in answer.comments.all %}
+                        <li class="comment">
+                            <a href="{% url "main.views.show_people" comment.user.id %}" class="avatar small"><img src="/media/avatar/default.jpg"></a>
+                            <div class="comment-main">
+                                <div class="content">
+                                    {% if comment.target %}
+                                    <a href="{% url "main.views.show_people" comment.target.id %}">@{{ comment.target.username }}</a>
+                                    {% endif %}
+                                    {{ comment.content }}
+                                    &nbsp-&nbsp<a href="{% url "main.views.show_people" comment.user.id %}" class="user">{{ comment.user.username }}</a>{% ifequal comment.user.id question.asker.id %}（作者）{% endifequal %}
+                                </div>
+                                <div class="addtion">
+                                    <span class="time">{{ comment.create_time|date:"Y年m月d日 H时i分" }}</span>
+                                    {% ifequal comment.user.id request.user.id %}
+                                    <a href="{% url "main.views.del_comment" comment.id %}" class="J_comment_del">删除</a>
+                                    {% else %}
+                                    <a class="J_comment_add">回复</a>
+                                    {% endifequal %}      
+                                </div>
+                                <form class="comment-form small J_comment_new none" method="POST" action="{% url "main.views.new_comment" %}">
+                                    {% csrf_token %}
+                                    <input name="father_id" type="hidden" value="{{ answer.id }}">
+                                    <input name="father_type" type="hidden" value="1">
+                                    <input name="target_id" type="hidden" value="{{ comment.user.id }}" >
+                                    <input name="content" type="text" placeholder="@{{ comment.user.username }}">
+                                    <button type="submit" class="btn comment-submit">提交</button>
+                                </form>
+                            </div> 
+                        </li>
+                        {% empty %}
+                        <p class="no-comment">暂无评论</p>
+                        {% endfor %}
+                    </ul>
+                    <form class="comment-form J_comment_new" method="POST" action="{% url "main.views.new_comment" %}">
+                        {% csrf_token %}
+                        <input name="father_id" type="hidden" value="{{ answer.id }}">
+                        <input name="father_type" type="hidden" value="1">
+                        <input name="target_id" type="hidden" value="" >
+                        <input name="content" type="text" placeholder="写下你的评论...">
+                        <button type="submit" class="btn comment-submit">提交</button>
+                    </form>
+                </div>
             </div>
         </li>
         {% endfor %}
     </ul>
 </section>
+
+<!-- js template -->
+{% verbatim %}
+
+<script class="comment-template" type="text/x-handlebars-template">
+    <li class="comment">
+        <a href="/people/{{ comment.user }}/" class="avatar small"><img src="/media/avatar/default.jpg"></a>
+        <div class="comment-main">
+            <div class="content">
+                {{#if comment.target }}
+                <a href="/people/{{ comment.target }}/">@{{ target_username }}</a>
+                {{/if}}
+                {{ comment.content }}
+                &nbsp-&nbsp<a href="/people/{{ comment.user }}/" class="user">{{ username }}</a>{{#if_eq comment.user compare=user_id }}（作者）{{/if_eq}}
+            </div>
+            <div class="addtion">
+                <span class="time">{{ create_time }}</span>
+                <a href="/comment/{{ comment_id }}/del/" class="J_comment_del">删除</a>
+            </div>
+        </div> 
+    </li>
+</script>
+
+{% endverbatim %}
 {% endblock %}
 
 {% block main-right %}   
