@@ -140,7 +140,7 @@
     </ul>
     <div id="your-answer">
         <h3>你的回答</h3>
-        <form method="POST" action="{% url 'main.views.answer_question' question.id %}">
+        <form class="J_answerForm" method="POST" action="{% url 'main.views.answer_question' question.id %}">
             {% csrf_token %}
             {% load wysiwyg %}
             {% wysiwyg_setup %}

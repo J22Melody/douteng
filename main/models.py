@@ -24,9 +24,9 @@ class Profile(Eventable):
     WOMAN = 1
     SEX = ((MAN,'男'),(WOMAN,'女'),)
 
-    portrait = models.ImageField(upload_to="portrait/",blank=True,null=True)
+    portrait = models.ImageField(upload_to="avatar/",default="avatar/DSC_1682.jpg")
     phone = models.CharField(max_length=20,blank=True)
-    sex = models.PositiveSmallIntegerField(choices=SEX)
+    sex = models.PositiveSmallIntegerField(choices=SEX,blank=True,null=True)
     introduction = models.TextField(blank=True)
     user = models.OneToOneField(User,primary_key =True)
     score = models.IntegerField(default=100)

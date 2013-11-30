@@ -291,7 +291,7 @@ a:hover, a:focus {
   position: relative;
   margin-top: 120px;
   margin-bottom: 50px;
-  min-height: 640px;
+  min-height: 400px;
 }
 /* line 121, ../../sass/common/_scaffolding.scss */
 #main #main-left {
@@ -300,9 +300,10 @@ a:hover, a:focus {
 /* line 126, ../../sass/common/_scaffolding.scss */
 #main #main-right {
   width: 260px;
+  margin-top: 50px;
 }
 
-/* line 132, ../../sass/common/_scaffolding.scss */
+/* line 133, ../../sass/common/_scaffolding.scss */
 #footer {
   width: 960px;
   position: relative;
@@ -311,13 +312,72 @@ a:hover, a:focus {
   line-height: 36px;
 }
 
-/* line 149, ../../sass/common/_scaffolding.scss */
+/* line 150, ../../sass/common/_scaffolding.scss */
 .back-to-top {
   left: 1200px;
   position: fixed;
   bottom: -20px;
   display: block;
   z-index: 9999;
+}
+
+/* line 2, ../../sass/common/_forms.scss */
+form legend {
+  color: #494949;
+  display: block;
+  font-size: 25px;
+  font-weight: bold;
+  line-height: 1.1;
+  margin: 36px 0;
+}
+/* line 11, ../../sass/common/_forms.scss */
+form .field {
+  margin-top: 14px;
+  margin-left: 26px;
+}
+/* line 15, ../../sass/common/_forms.scss */
+form .field label {
+  font-size: 14px;
+}
+/* line 19, ../../sass/common/_forms.scss */
+form .field input[type=text], form .field input[type=password], form .field textarea {
+  margin-top: 6px;
+  width: 180px;
+  height: 30px;
+  font-size: 14px;
+  padding: 0 8px;
+  border: 1px solid #ccc;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  border-radius: 5px;
+}
+/* line 28, ../../sass/common/_forms.scss */
+form .field input[type=text]:focus, form .field input[type=password]:focus, form .field textarea:focus {
+  -webkit-box-shadow: 0 0 8px #ccdddd;
+  -moz-box-shadow: 0 0 8px #ccdddd;
+  box-shadow: 0 0 8px #ccdddd;
+}
+/* line 33, ../../sass/common/_forms.scss */
+form .field textarea {
+  width: 320px;
+  height: 150px;
+}
+/* line 38, ../../sass/common/_forms.scss */
+form .field button, form .field input[type=submit] {
+  margin-top: 6px;
+}
+/* line 42, ../../sass/common/_forms.scss */
+form .field ul.errorlist {
+  color: #fe2617;
+  margin-top: 4px;
+  margin-left: 2px;
+}
+
+/* line 50, ../../sass/common/_forms.scss */
+input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0px 1000px white inset;
 }
 
 /* line 1, ../../sass/common/_buttons.scss */

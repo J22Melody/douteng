@@ -78,12 +78,11 @@ def login_view(request):
             user = authenticate(username=username, password=password) 
             if user is not None and user.is_active:
                 login(request, user)
-            return HttpResponseRedirect("/")
+            return HttpResponseRedirect(request.GET.get('next','/'))
     else:
         form = LoginForm() 
     return render_to_response('main/login.html',context_instance=RequestContext(request,{'title':'login','form':form}))
 
-@login_required  
 def logout_view(request):  
     logout(request)  
     return login_view(request)
@@ -164,7 +163,6 @@ def answer_question(request,question_id):
     user = request.user
     answer = Answer(question_id=question_id,answerer_id=user.id,content=request.POST['content'])
     answer.save()
-    print 'save'
     return HttpResponseRedirect('/question/'+question_id+'/')
 
 def show_people(request):  
@@ -172,7 +170,23 @@ def show_people(request):
 
 @transaction.commit_on_success
 def new_people(request):  
-    pass
+    if request.method == 'POST':
+        form = RegisterForm(data=request.POST,files=request.FILES)
+        if form.is_valid():
+            username = form.cleaned_data["username"]  
+            password = form.cleaned_data["password"]  
+            introduction = form.cleaned_data["introduction"]
+            portrait = request.FILES.get('portrait')
+            user = User.objects.create_user(username=username,password=password)  
+            user_profile = Profile(user=user,portrait=portrait,introduction=introduction)
+            user_profile.save()
+            user.save()  
+            user = authenticate(username=username, password=password) 
+            login(request,user) 
+            return HttpResponseRedirect('/people/'+str(user.id)+"/") 
+    else:
+        form = RegisterForm() 
+    return render_to_response('main/new_people.html',context_instance=RequestContext(request,{"title":"new_people","form":form}))
 
 @transaction.commit_on_success
 def edit_people(request):  
@@ -255,13 +269,14 @@ def new_comment(request):
     else:
         comment = Comment(user=user,father=father,content=content)
     comment.save()
+    portrait = str(comment.user.profile.portrait)
     comment_id = comment.id
     target_username = ''
     if comment.target:
         target_username = comment.target.username
     create_time = (comment.create_time+timedelta(hours=8)).strftime('%Y年%m月%d日 %H时%M分')
     comment = serializers.serialize('python', [comment,])
-    return HttpResponse(json.dumps({"success":True,"create_time":create_time,"comment_id":comment_id,"comment":comment,"target_username":target_username,"username":user.username,"user_id":father.user.id,"father_type":request.POST.get('father_type')},cls=DjangoJSONEncoder),mimetype="application/json")
+    return HttpResponse(json.dumps({"success":True,"portrait":portrait,"create_time":create_time,"comment_id":comment_id,"comment":comment,"target_username":target_username,"username":user.username,"user_id":father.user.id,"father_type":request.POST.get('father_type')},cls=DjangoJSONEncoder),mimetype="application/json")
 
 @ajax_view
 @transaction.commit_on_success

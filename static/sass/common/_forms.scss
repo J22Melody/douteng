@@ -1,0 +1,52 @@
+form{
+    legend{
+        color: #494949;
+        display: block;
+        font-size: 25px;
+        font-weight: bold;
+        line-height: 1.1;
+        margin: 36px 0;
+    }
+
+    .field{
+        margin-top: 14px;
+        margin-left: 26px;
+
+        label{
+            font-size: 14px;
+        }
+
+        input[type=text],input[type=password],textarea{
+            margin-top: 6px;
+            width: 180px;
+            height: 30px;
+            font-size: 14px;
+            padding: 0 8px;
+            border: 1px solid #ccc;
+            @include border-radius(5px);
+
+            &:focus{
+                @include box-shadow(0 0 8px #cdd);
+            }
+        }
+
+        textarea{
+            width: 320px;
+            height: 150px;
+        }
+
+        button,input[type=submit]{
+            margin-top: 6px;
+        }
+
+        ul.errorlist{
+            color: #fe2617;
+            margin-top: 4px;
+            margin-left: 2px;
+        }
+    }
+}
+
+input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0px 1000px white inset;
+}

@@ -81,7 +81,7 @@ require(['jquery','handlebars'], function($){
                 if(result.success){
                     var source = $('.comment-template').html();
                     var template = Handlebars.compile(source);
-                    var context = {'comment':result.comment[0]['fields'],'create_time':result.create_time,'target_username':result.target_username,'comment_id':result.comment_id,'username':result.username,'user_id':result.user_id,"father_type":result.father_type};
+                    var context = {'portrait':result.portrait,'comment':result.comment[0]['fields'],'create_time':result.create_time,'target_username':result.target_username,'comment_id':result.comment_id,'username':result.username,'user_id':result.user_id,"father_type":result.father_type};
                     var html = template(context);
                     that.closest('.comments-wrapper').find('.comments').append(html);
                     that.find('input[name="content"]').val('');

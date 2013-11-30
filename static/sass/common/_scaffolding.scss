@@ -116,7 +116,7 @@
     position: relative;
     margin-top: 120px;
     margin-bottom: 50px;
-    min-height: 640px;
+    min-height: 400px;
 
     #main-left{
         @extend .fl;
@@ -126,6 +126,7 @@
     #main-right{
         @extend .fr;
         width: 260px;
+        margin-top: 50px;
     }
 }
 

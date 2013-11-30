@@ -5,20 +5,23 @@
 {% block main-left %}  
 <form action="#" method="post">
     <fieldset>
-        <legend>登录</legend>
+        <legend>登录豆藤</legend>
         {{ form.non_field_errors }}
         {% csrf_token %} 
         {% for field in form %}
-        <div>           
+        <div class="field">           
             <p>{{ field.label_tag }}:</p>
             {{ field }} {{ field.errors }}
         </div>
         {% endfor %}
-        <div><input type="submit" value="登录" class="btn"/></div>
+        <div class="field">
+            <input type="submit" value="登录" class="btn form-btn"/>
+        </div>
     </fieldset>
 </form>
 {% endblock %}
 
 {% block main-right %}   
+<p>> 还没有豆藤帐号？<a href="{% url "main.views.new_people" %}">立即注册</a></p>
 {% endblock %}
  

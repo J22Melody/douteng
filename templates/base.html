@@ -30,7 +30,7 @@
                 <a href="{% url "main.views.logout_view" %}">退出</a>
             {% else %}           
                 <a href="{% url "main.views.login_view" %}">登录</a>
-                <a href="">注册</a>            
+                <a href="{% url "main.views.new_people" %}">注册</a>            
             {% endif %}
             </div>             
         </div>

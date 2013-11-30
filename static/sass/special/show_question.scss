@@ -20,6 +20,10 @@ h1{
 .question-operation{
     color: #37a;
 
+    .comments-wrapper{
+        color: #555;
+    }
+
     a{
         margin-right: 10px;
     }
@@ -43,7 +47,7 @@ h1{
         }
 
         .content{
-            color: #222;
+            color: #555;
             line-height: 1.8;
             padding: 20px 0;
         }

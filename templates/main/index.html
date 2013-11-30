@@ -8,7 +8,7 @@
     <ul class="feeds">
         {% for event in events %}
         <li class="feed">
-            <a href="{% url "main.views.show_people" event.user.id %}" class="avatar"><img src="/media/avatar/default.jpg"></a>
+            <a href="{% url "main.views.show_people" event.user.id %}" class="avatar"><img src="/media/{{ event.user.profile.portrait }}"></a>
             <div class="question-main">
                 <div class="source">
                     <a href="{% url "main.views.show_people" event.user.id %}" class="user">{{ event.user.username }}</a>
@@ -35,21 +35,23 @@
                     :
                 </div>
                 <div class="content">
+                    {% autoescape off %}
                     <h2><a href="{% url "main.views.show_question" event.question.id %}">{{ event.title }}</a></h2>
                     {% if event.content|length > 200 %}
                     <p class="answer none">
-                        {{ event.content|safe }}
+                        {{ event.content }}
                         <a class="packUp">收起</a>
                     </p>
                     <p class="summary">
-                        {{ event.content|safe|slice:"200" }}{% if event.content|length > 200 %}...{% endif %} 
+                        {{ event.content|slice:"200" }}{% if event.content|length > 200 %}...{% endif %} 
                         <a class="showAll">显示全部</a>
                     </p>
                     {% else %}
                     <p class="answer">
-                        {{ event.content|safe }}
+                        {{ event.content }}
                     </p>
                     {% endif %}
+                    {% endautoescape %}
                 </div>
                 <div class="addtion">
                     <span class="time">{{ event.create_time|date:"Y年m月d日 H时i分" }}</span>
@@ -78,7 +80,7 @@
                     <ul class="comments">
                         {% for comment in event.comments %}
                         <li class="comment">
-                            <a href="{% url "main.views.show_people" comment.user.id %}" class="avatar small"><img src="/media/avatar/default.jpg"></a>
+                            <a href="{% url "main.views.show_people" comment.user.id %}" class="avatar small"><img src="/media/{{ comment.user.profile.portrait }}"></a>
                             <div class="comment-main">
                                 <div class="content">
                                     {% if comment.target %}
@@ -129,7 +131,7 @@
 
 <script class="comment-template" type="text/x-handlebars-template">
     <li class="comment">
-        <a href="/people/{{ comment.user }}/" class="avatar small"><img src="/media/avatar/default.jpg"></a>
+        <a href="/people/{{ comment.user }}/" class="avatar small"><img src="/media/{{ portrait }}"></a>
         <div class="comment-main">
             <div class="content">
                 {{#if comment.target }}
