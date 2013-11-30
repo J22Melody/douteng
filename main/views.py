@@ -115,7 +115,10 @@ def show_question(request,question_id):
 
 @transaction.commit_on_success
 def new_question(request):  
-    pass
+    return render_to_response('main/new_question.html',context_instance=RequestContext(request,{'title':'new_question'}))
+
+def search_question(request):  
+    return render_to_response('main/search_question.html',context_instance=RequestContext(request,{'title':'search_question'}))
 
 @transaction.commit_on_success
 def edit_question(request,question_id):  
@@ -165,8 +168,8 @@ def answer_question(request,question_id):
     answer.save()
     return HttpResponseRedirect('/question/'+question_id+'/')
 
-def show_people(request):  
-    pass
+def show_people(request,people_id):  
+    return render_to_response('main/show_people.html',context_instance=RequestContext(request,{'title':'show_people'}))
 
 @transaction.commit_on_success
 def new_people(request):  

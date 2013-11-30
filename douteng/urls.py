@@ -19,6 +19,7 @@ urlpatterns = patterns('',
 
     url(r'^question/(?P<question_id>\d+)/$', show_question), 
     url(r'^question/new/$', new_question), 
+    url(r'^question/search/$', search_question), 
     url(r'^question/(?P<question_id>\d+)/edit/$', edit_question), 
     url(r'^question/(?P<question_id>\d+)/del/$', del_question), 
     url(r'^question/(?P<question_id>\d+)/follow/$', follow_question), 
