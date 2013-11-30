@@ -1,0 +1,26 @@
+{% extends "base.html" %}  
+
+{% block title %} 豆藤 {% endblock %} 
+
+{% block main-left %}  
+<form action="#" method="post" enctype="multipart/form-data">
+    <fieldset>
+        <legend>欢迎加入豆藤</legend>
+        {{ form.non_field_errors }}
+        {% csrf_token %} 
+        {% for field in form %}
+        <div class="field">           
+            <p>{{ field.label_tag }}:</p>
+            {{ field }} {{ field.errors }}
+        </div>
+        {% endfor %}
+        <div class="field">
+            <input type="submit" value="注册" class="btn form-btn"/>
+        </div>
+    </fieldset>
+</form>
+{% endblock %}
+
+{% block main-right %}   
+{% endblock %}
+ 
