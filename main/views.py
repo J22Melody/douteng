@@ -115,7 +115,21 @@ def show_question(request,question_id):
 
 @transaction.commit_on_success
 def new_question(request):  
-    return render_to_response('main/new_question.html',context_instance=RequestContext(request,{'title':'new_question'}))
+    if request.method == 'POST':
+        form = QuestionForm(data=request.POST)
+        if form.is_valid():
+            title = form.cleaned_data["title"]
+            content = form.cleaned_data["content"]
+            score = form.cleaned_data["score"]
+            topics = form.cleaned_data["topic"] 
+            question = Question(title=title,content=content,score=score,asker=request.user)
+            question.save()
+            for topic in topics:
+                question.topic.add(topic)   
+            return HttpResponseRedirect(reverse("main.views.show_question",args=[question.id,])) 
+    else:
+        form = QuestionForm() 
+    return render_to_response('main/new_question.html',context_instance=RequestContext(request,{'title':'new_question','form':form}))
 
 def search_question(request):  
     return render_to_response('main/search_question.html',context_instance=RequestContext(request,{'title':'search_question'}))
@@ -186,7 +200,7 @@ def new_people(request):
             user.save()  
             user = authenticate(username=username, password=password) 
             login(request,user) 
-            return HttpResponseRedirect('/people/'+str(user.id)+"/") 
+            return HttpResponseRedirect(reverse("main.views.show_people",args=[user.id,])) 
     else:
         form = RegisterForm() 
     return render_to_response('main/new_people.html',context_instance=RequestContext(request,{"title":"new_people","form":form}))

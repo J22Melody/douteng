@@ -39,6 +39,10 @@ class Topic(Eventable):
     follower = models.ManyToManyField(User,related_name="topic_followed",blank=True,null=True)
     father = models.ForeignKey('self',blank=True,null=True)
 
+    def __unicode__(self):
+        return self.title
+
+
 class Question(Commentable,Eventable):
     title = models.CharField(max_length=50)
     content = models.TextField()
