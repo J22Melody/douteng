@@ -1,0 +1,70 @@
+/* line 4, ../../sass/special/indexAndSearch.scss */
+.feeds .feed {
+  margin-top: 26px;
+}
+/* line 7, ../../sass/special/indexAndSearch.scss */
+.feeds .feed .avatar {
+  float: left;
+}
+/* line 11, ../../sass/special/indexAndSearch.scss */
+.feeds .feed .question-main {
+  margin-left: 58px;
+  color: #555;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 20px;
+}
+/* line 18, ../../sass/special/indexAndSearch.scss */
+.feeds .feed .question-main .source a {
+  color: #555;
+  margin: 0 6px;
+}
+/* line 22, ../../sass/special/indexAndSearch.scss */
+.feeds .feed .question-main .source a:hover {
+  color: #fff;
+}
+/* line 28, ../../sass/special/indexAndSearch.scss */
+.feeds .feed .question-main .content {
+  margin-top: 10px;
+  margin-left: 18px;
+  padding: 16px 20px;
+  background: #f9f9f9;
+}
+/* line 34, ../../sass/special/indexAndSearch.scss */
+.feeds .feed .question-main .content h2 {
+  font-size: 14px;
+  margin-bottom: 2px;
+}
+/* line 39, ../../sass/special/indexAndSearch.scss */
+.feeds .feed .question-main .content .showAll, .feeds .feed .question-main .content .packUp {
+  cursor: pointer;
+}
+/* line 44, ../../sass/special/indexAndSearch.scss */
+.feeds .feed .question-main .addtion {
+  margin-top: 14px;
+  margin-left: 38px;
+}
+/* line 48, ../../sass/special/indexAndSearch.scss */
+.feeds .feed .question-main .addtion .time {
+  color: #999;
+  margin-right: 12px;
+}
+/* line 53, ../../sass/special/indexAndSearch.scss */
+.feeds .feed .question-main .addtion .operation {
+  color: #37a;
+}
+/* line 56, ../../sass/special/indexAndSearch.scss */
+.feeds .feed .question-main .addtion .operation a {
+  margin-right: 6px;
+}
+/* line 59, ../../sass/special/indexAndSearch.scss */
+.feeds .feed .question-main .addtion .operation a:hover {
+  color: #fff;
+}
+/* line 66, ../../sass/special/indexAndSearch.scss */
+.feeds .feed .question-main .comments-wrapper {
+  margin-left: 24px;
+}
+/* line 72, ../../sass/special/indexAndSearch.scss */
+.feeds .feed:last-child .addtion {
+  border-bottom: none;
+}

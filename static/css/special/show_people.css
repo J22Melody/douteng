@@ -1,0 +1,56 @@
+@charset "GBK";
+/* line 1, ../../sass/special/show_people.scss */
+section h1 {
+  color: #072;
+  font-weight: normal;
+  font-family: "宋体";
+}
+
+/* line 7, ../../sass/special/show_people.scss */
+.basic-info {
+  margin-top: 50px;
+}
+/* line 10, ../../sass/special/show_people.scss */
+.basic-info .avatar {
+  float: left;
+}
+/* line 14, ../../sass/special/show_people.scss */
+.basic-info .detail {
+  float: left;
+  margin-left: 16px;
+  color: #666;
+  font-family: "Microsoft Yahei";
+}
+/* line 20, ../../sass/special/show_people.scss */
+.basic-info .detail h1 {
+  font-size: 25px;
+  font-weight: bold;
+  color: #494949;
+  line-height: 1.1;
+  display: inline;
+  font-family: "Microsoft Yahei";
+}
+/* line 29, ../../sass/special/show_people.scss */
+.basic-info .detail .intro {
+  font-style: italic;
+  color: #777;
+  font-size: 13px;
+}
+
+/* line 38, ../../sass/special/show_people.scss */
+.items {
+  padding-top: 12px;
+}
+/* line 41, ../../sass/special/show_people.scss */
+.items .item {
+  border-bottom: 1px dashed #ddd;
+  padding: 4px 0;
+}
+/* line 45, ../../sass/special/show_people.scss */
+.items .item h6 {
+  display: inline;
+}
+/* line 49, ../../sass/special/show_people.scss */
+.items .item .time {
+  color: #999;
+}

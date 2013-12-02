@@ -136,7 +136,7 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'main',
     'django_wysiwyg',
-    'tinymce',
+    'ckeditor',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
 )
@@ -174,6 +174,9 @@ LOGGING = {
 
 LOGIN_URL = '/login/'
 
-DJANGO_WYSIWYG_FLAVOR = "tinymce"
+CKEDITOR_UPLOAD_PATH = "media/ckeditor"
+
+DJANGO_WYSIWYG_FLAVOR = "ckeditor"
+
 
 

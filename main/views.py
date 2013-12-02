@@ -64,7 +64,7 @@ def index(request):
             event.father.type = 1
         event.title = event.question.title
         event.comment_num = len(event.comments)    
-    return render_to_response('main/index.html',context_instance=RequestContext(request,{'title':'index','events':events}))
+    return render_to_response('main/index.html',context_instance=RequestContext(request,{'title':'indexAndSearch','events':events}))
 
 def topic(request):  
     pass
@@ -92,7 +92,10 @@ def show_question(request,question_id):
     question.followed = question.follower.filter(id=request.user.id).exists()
     question.collected = question.collector.filter(id=request.user.id).exists()
     question.answers = question.answer_set.all()
+    question.adopted = False
     for answer in question.answers:
+        if(answer.adopted):
+            question.adopted = True
         answer.goods = answer.evaluation_set.filter(kind=0)
         answer.bads = answer.evaluation_set.filter(kind=1)
         answer.sowhats = answer.evaluation_set.filter(kind=2)
@@ -116,7 +119,7 @@ def show_question(request,question_id):
 @transaction.commit_on_success
 def new_question(request):  
     if request.method == 'POST':
-        form = QuestionForm(data=request.POST)
+        form = QuestionForm(data=request.POST,max_score=request.user.profile.score)
         if form.is_valid():
             title = form.cleaned_data["title"]
             content = form.cleaned_data["content"]
@@ -124,15 +127,39 @@ def new_question(request):
             topics = form.cleaned_data["topic"] 
             question = Question(title=title,content=content,score=score,asker=request.user)
             question.save()
+            question.follower.add(request.user)
+            request.user.profile.score -= score
+            request.user.profile.save()
             for topic in topics:
                 question.topic.add(topic)   
             return HttpResponseRedirect(reverse("main.views.show_question",args=[question.id,])) 
     else:
-        form = QuestionForm() 
+        form = QuestionForm(max_score=request.user.profile.score) 
     return render_to_response('main/new_question.html',context_instance=RequestContext(request,{'title':'new_question','form':form}))
 
-def search_question(request):  
-    return render_to_response('main/search_question.html',context_instance=RequestContext(request,{'title':'search_question'}))
+def search(request):  
+    q = request.GET['q']
+    questions = Question.objects.filter(title__icontains=q)
+    events = Event.objects.filter(kind=0)
+    events = [event for event in events if event.father in questions]
+    for event in events:
+        event.question = event.father
+        event.content = event.question.content
+        followers = event.question.follower.all()
+        collectors = event.question.collector.all()
+        event.follower_num = len(followers)
+        event.collector_num = len(collectors)
+        event.followed = followers.filter(id=request.user.id).exists()
+        event.collected = collectors.filter(id=request.user.id).exists()
+        event.answer_num = len(event.question.answer_set.all())
+        event.comments = event.question.comments.all()
+        event.father.type = 0
+        event.title = event.question.title
+        event.comment_num = len(event.comments)
+    users = User.objects.filter(username__icontains=q)
+    for user in users:
+        user.profile.followed = user.profile.follower.filter(id=request.user.id).exists()
+    return render_to_response('main/search.html',context_instance=RequestContext(request,{'title':'indexAndSearch','events':events,'users':users}))
 
 @transaction.commit_on_success
 def edit_question(request,question_id):  
@@ -180,10 +207,22 @@ def answer_question(request,question_id):
     user = request.user
     answer = Answer(question_id=question_id,answerer_id=user.id,content=request.POST['content'])
     answer.save()
-    return HttpResponseRedirect('/question/'+question_id+'/')
+    return HttpResponseRedirect(reverse('main.views.show_question',args=[question_id,]))
 
+@transaction.commit_on_success
+def adopt_answer(request,answer_id):
+    answer = Answer.objects.get(id=answer_id)
+    answer.adopted = True
+    answer.save()
+    answer.answerer.profile.score += answer.question.score
+    answer.answerer.profile.save()
+    return HttpResponseRedirect(reverse('main.views.show_question',args=[answer.question.id,]))
+    
 def show_people(request,people_id):  
-    return render_to_response('main/show_people.html',context_instance=RequestContext(request,{'title':'show_people'}))
+    people = User.objects.get(id=people_id)
+    questions_asked = Question.objects.filter(asker=people)
+    questions_answered = list(set([answer.question for answer in Answer.objects.filter(answerer=people)]))
+    return render_to_response('main/show_people.html',context_instance=RequestContext(request,{'title':'show_people','people':people,'questions_answered':questions_answered,'questions_asked':questions_asked}))
 
 @transaction.commit_on_success
 def new_people(request):  
@@ -213,13 +252,21 @@ def edit_people(request):
 def del_people(request):  
     pass
 
+@ajax_view
 @transaction.commit_on_success
-def follow_people(request):  
-    pass
+def follow_people(request,people_id):  
+    followed= User.objects.get(id=people_id).profile
+    follower = request.user
+    followed.follower.add(follower)
+    return HttpResponse(json.dumps({"success":True,"text":"取消关注","href":reverse("main.views.unfollow_people",args=[people_id,]),"num":""}),mimetype="application/json")
 
+@ajax_view
 @transaction.commit_on_success
-def unfollow_people(request):  
-    pass
+def unfollow_people(request,people_id):  
+    followed = User.objects.get(id=people_id).profile
+    follower = request.user
+    followed.follower.remove(follower)
+    return HttpResponse(json.dumps({"success":True,"text":"关注","href":reverse("main.views.follow_people",args=[people_id,]),"num":str(len(followed.follower.all()))+"个"}),mimetype="application/json")
 
 def show_topic(request):  
     pass

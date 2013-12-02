@@ -17,9 +17,10 @@ urlpatterns = patterns('',
     url(r'^login/$', login_view),
     url(r'^logout/$', logout_view),
 
+    url(r'^search/$', search), 
+
     url(r'^question/(?P<question_id>\d+)/$', show_question), 
     url(r'^question/new/$', new_question), 
-    url(r'^question/search/$', search_question), 
     url(r'^question/(?P<question_id>\d+)/edit/$', edit_question), 
     url(r'^question/(?P<question_id>\d+)/del/$', del_question), 
     url(r'^question/(?P<question_id>\d+)/follow/$', follow_question), 
@@ -27,6 +28,8 @@ urlpatterns = patterns('',
     url(r'^question/(?P<question_id>\d+)/collect/$', collect_question), 
     url(r'^question/(?P<question_id>\d+)/uncollect/$', uncollect_question), 
     url(r'^question/(?P<question_id>\d+)/answer/$', answer_question), 
+
+    url(r'^answer/(?P<answer_id>\d+)/adopt/$', adopt_answer), 
 
     url(r'^people/(?P<people_id>\d+)/$', show_people), 
     url(r'^people/new/$', new_people), 
@@ -53,4 +56,5 @@ urlpatterns = patterns('',
 # media access
 urlpatterns += patterns('',
     url(r'^media/(?P<path>.*)$','django.views.static.serve',{'document_root': settings.MEDIA_ROOT, }),
+    (r'^ckeditor/', include('ckeditor.urls')),
 )

@@ -1,0 +1,53 @@
+section h1{
+    color: #072;
+    font-weight: normal;
+    font-family: "宋体";
+}
+
+.basic-info{
+    margin-top: 50px;
+
+    .avatar{
+        float: left;
+    }
+
+    .detail{
+        float: left;
+        margin-left: 16px;
+        color: #666;
+        font-family: "Microsoft Yahei";
+
+        h1{
+            font-size: 25px;
+            font-weight: bold;
+            color: #494949;
+            line-height: 1.1;
+            display: inline;
+            font-family: "Microsoft Yahei";
+        }
+
+        .intro{
+            font-style: italic;
+            color: #777;
+            font-size: 13px;
+        }
+        
+    }
+}
+
+.items{
+    padding-top: 12px;
+
+    .item{
+        border-bottom: 1px dashed #ddd;
+        padding: 4px 0;
+
+        h6{
+            display: inline;
+        }
+
+        .time{
+            color: #999;
+        }
+    }
+}

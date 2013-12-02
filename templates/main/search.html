@@ -1,0 +1,59 @@
+{% extends "base.html" %}  
+
+{% block title %} 豆藤 {% endblock %} 
+
+{% block main-left %}  
+<section>
+    <h1>搜到的问题</h1>
+    {% include "partial/feed_list.html" %}
+</section>
+<section>
+    <h1>搜到的成员</h1>
+    <ul class="feeds">
+        {% for user in users %}
+        <li class="feed">
+        <a href="{% url "main.views.show_people" user.id %}" class="avatar"><img src="/media/{{ user.profile.portrait }}"></a>
+        <div class="question-main">
+            <div class="source">
+                <a href="{% url "main.views.show_people" user.id %}" class="user">{{ user.username }}</a>
+                （<span>{% if not user.profile.followed %}{{ user.profile.follower.all|length }}人{% endif %}</span><a style="margin:0" class="J_operation" href="{% if user.profile.followed %}{% url "main.views.unfollow_people" user.id %}{% else %}{% url "main.views.follow_people" user.id %}{% endif %}">{% if user.profile.followed %}取消{% endif %}关注</a>）:
+            </div>
+            <div class="content">
+                <p>{{ user.profile.introduction }}</p>
+                <p>手握{{ user.profile.score }}积分</p>
+                <p>于{{ user.date_joined|date:"Y年m月d日 H时i分" }}加入豆藤</p>
+            </div>
+        </div>
+    </li>
+        {% endfor %}
+    </ul>
+</section>
+<!-- js template -->
+{% verbatim %}
+
+<script class="comment-template" type="text/x-handlebars-template">
+    <li class="comment">
+        <a href="/people/{{ comment.user }}/" class="avatar small"><img src="/media/{{ portrait }}"></a>
+        <div class="comment-main">
+            <div class="content">
+                {{#if comment.target }}
+                <a href="/people/{{ comment.target }}/">@{{ target_username }}</a>
+                {{/if}}
+                {{ comment.content }}
+                &nbsp-&nbsp<a href="/people/{{ comment.user }}/" class="user">{{ username }}</a>{{#if_eq comment.user compare=user_id }}（作者）{{/if_eq}}
+            </div>
+            <div class="addtion">
+                <span class="time">{{ create_time }}</span>
+                <a href="/comment/{{ comment_id }}/del/" class="J_comment_del">删除</a>
+            </div>
+        </div> 
+    </li>
+</script>
+
+{% endverbatim %}
+
+{% endblock %}
+
+{% block main-right %}   
+{% endblock %}
+ 

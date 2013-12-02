@@ -4,7 +4,7 @@
 
 {% block main-left %}  
 <section>
-    <h1>{{ question.title }}（{{ question.answer_set.all|length }}个回答）</h1>
+    <h1>{{ question.title }}（{{ question.answer_set.all|length }}个回答、悬赏{{ question.score }}分）</h1>
     <ul class="topic-list clearfix">
         {% for topic in question.topic.all %}
         <li><a href="" class="topic">[{{ topic.title }}]</a></li>
@@ -26,7 +26,7 @@
             <ul class="comments">
                 {% for comment in question.comments.all %}
                 <li class="comment">
-                    <a href="{% url "main.views.show_people" comment.user.id %}" class="avatar small"><img src="/media/avatar/default.jpg"></a>
+                    <a href="{% url "main.views.show_people" comment.user.id %}" class="avatar small"><img src="/media/{{ comment.user.profile.portrait }}"></a>
                     <div class="comment-main">
                         <div class="content">
                             {% if comment.target %}
@@ -71,7 +71,7 @@
         {% for answer in question.answers %}
         <li class="answer">
             <div class="source clearfix">
-                <a href="" class="avatar fl"><img src="/media/avatar/default.jpg"></a>
+                <a href="" class="avatar fl"><img src="/media/{{ answer.answerer.profile.portrait }}"></a>
                 <div class="fl">
                     <p><a href="" class="user">{{ answer.answerer }}</a></p>
                     <p class="time">{{ answer.create_time|date:"Y年m月d日 H时i分" }}</p>
@@ -89,12 +89,12 @@
                         {% if answer.comments.all %}{{ answer.comments.all|length }}条{% else %}添加{% endif %}评论
                         <span class="icons-upArrow none"></span>
                     </a>
-                </span>
+                </span> 
                 <div class="comments-wrapper none">
                     <ul class="comments">
                         {% for comment in answer.comments.all %}
                         <li class="comment">
-                            <a href="{% url "main.views.show_people" comment.user.id %}" class="avatar small"><img src="/media/avatar/default.jpg"></a>
+                            <a href="{% url "main.views.show_people" comment.user.id %}" class="avatar small"><img src="/media/{{ comment.user.profile.portrait }}"></a>
                             <div class="comment-main">
                                 <div class="content">
                                     {% if comment.target %}
@@ -134,6 +134,14 @@
                         <button type="submit" class="btn comment-submit">提交</button>
                     </form>
                 </div>
+                {% if answer.adopted %}  
+                <p style="color:#999;margin-top:4px;">此答案已被采纳为最佳</p>
+                {% endif %}
+                {% if not question.adopted %}
+                    {% ifequal request.user.id question.asker.id %}
+                    <a href="{% url "main.views.adopt_answer" answer.id  %}">采纳为最佳</a>
+                    {% endifequal %}
+                {% endif %} 
             </div>
         </li>
         {% endfor %}
@@ -178,4 +186,5 @@
 
 {% block main-right %}   
 {% endblock %}
+
  

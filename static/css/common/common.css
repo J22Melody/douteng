@@ -428,20 +428,21 @@ section h1 {
   font-size: 16px;
   color: #666;
   font-weight: 700;
+  font-family: "Microsoft Yahei";
 }
 
-/* line 15, ../../sass/common/_components.scss */
+/* line 16, ../../sass/common/_components.scss */
 .comment-add {
   position: relative;
 }
-/* line 18, ../../sass/common/_components.scss */
+/* line 19, ../../sass/common/_components.scss */
 .comment-add .icons-upArrow {
   position: absolute;
   top: 23px;
   left: 18px;
 }
 
-/* line 26, ../../sass/common/_components.scss */
+/* line 27, ../../sass/common/_components.scss */
 .comments-wrapper {
   border: 1px solid #ddd;
   -webkit-border-radius: 4px;
@@ -452,58 +453,58 @@ section h1 {
   padding: 12px;
   margin-top: 12px;
 }
-/* line 32, ../../sass/common/_components.scss */
+/* line 33, ../../sass/common/_components.scss */
 .comments-wrapper .comments {
   border-bottom: 1px solid #ddd;
   position: relative;
 }
-/* line 36, ../../sass/common/_components.scss */
+/* line 37, ../../sass/common/_components.scss */
 .comments-wrapper .comments .comment {
   margin-bottom: 16px;
 }
-/* line 39, ../../sass/common/_components.scss */
+/* line 40, ../../sass/common/_components.scss */
 .comments-wrapper .comments .comment .avatar {
   float: left;
 }
-/* line 43, ../../sass/common/_components.scss */
+/* line 44, ../../sass/common/_components.scss */
 .comments-wrapper .comments .comment .comment-main {
   margin-left: 36px;
   line-height: 12px;
 }
-/* line 47, ../../sass/common/_components.scss */
+/* line 48, ../../sass/common/_components.scss */
 .comments-wrapper .comments .comment .comment-main .content {
   background: #fff;
   margin: 0;
   padding: 0;
 }
-/* line 53, ../../sass/common/_components.scss */
+/* line 54, ../../sass/common/_components.scss */
 .comments-wrapper .comments .comment .comment-main .addtion {
   margin: 0;
   padding: 0;
   margin-top: 8px;
 }
-/* line 58, ../../sass/common/_components.scss */
+/* line 59, ../../sass/common/_components.scss */
 .comments-wrapper .comments .comment .comment-main .addtion .time {
   color: #999;
   margin-right: 12px;
 }
-/* line 65, ../../sass/common/_components.scss */
+/* line 66, ../../sass/common/_components.scss */
 .comments-wrapper .comments .comment .comment-main .comment-form.small input {
   width: 394px;
   height: 24px;
 }
-/* line 73, ../../sass/common/_components.scss */
+/* line 74, ../../sass/common/_components.scss */
 .comments-wrapper .comments .no-comment {
   position: relative;
   left: 46%;
   margin-bottom: 12px;
   color: #aaa;
 }
-/* line 81, ../../sass/common/_components.scss */
+/* line 82, ../../sass/common/_components.scss */
 .comments-wrapper .comment-form {
   margin-top: 12px;
 }
-/* line 84, ../../sass/common/_components.scss */
+/* line 85, ../../sass/common/_components.scss */
 .comments-wrapper .comment-form input {
   width: 84%;
   border: 1px solid #c9c9c9;
@@ -514,29 +515,34 @@ section h1 {
   -o-border-radius: 3px;
   border-radius: 3px;
 }
-/* line 90, ../../sass/common/_components.scss */
+/* line 91, ../../sass/common/_components.scss */
 .comments-wrapper .comment-form input:focus {
   -webkit-box-shadow: 0 0 7px #dddddd;
   -moz-box-shadow: 0 0 7px #dddddd;
   box-shadow: 0 0 7px #dddddd;
 }
-/* line 95, ../../sass/common/_components.scss */
+/* line 96, ../../sass/common/_components.scss */
 .comments-wrapper .comment-form button {
   margin-left: 20px;
 }
 
-/* line 103, ../../sass/common/_components.scss */
+/* line 104, ../../sass/common/_components.scss */
 .avatar {
   display: inline-block;
   width: 48px;
   height: 48px;
 }
-/* line 108, ../../sass/common/_components.scss */
+/* line 109, ../../sass/common/_components.scss */
 .avatar.small {
   width: 26px;
   height: 26px;
 }
-/* line 113, ../../sass/common/_components.scss */
+/* line 114, ../../sass/common/_components.scss */
+.avatar.big {
+  width: 72px;
+  height: 72px;
+}
+/* line 119, ../../sass/common/_components.scss */
 .avatar img {
   width: 100%;
   height: 100%;

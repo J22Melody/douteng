@@ -1,0 +1,41 @@
+{% extends "base.html" %}  
+
+{% block title %} 豆藤 {% endblock %} 
+
+{% block main-left %}  
+<section class="basic-info clearfix">
+    <a href="{% url "main.views.show_people" people.id %}" class="avatar big"><img src="/media/{{ people.profile.portrait }}"></a>
+    <div class="detail">
+        <div style="margin-bottom:6px;"><h1>{{ people.username }}</h1><span class="intro">（{{ people.profile.introduction }}）</span></div>
+        <div>手握{{ user.profile.score }}积分</div>
+        <div>于{{ user.date_joined|date:"Y年m月d日 H时i分" }}加入豆藤</div>
+    </div>
+</section>
+<section class="my-questions">
+    <h1>{{ people.username }}提过的问题</h1>
+    <ul class="items">
+        {% for question in questions_asked %}
+        <li class="item">
+            <h6><a href="{% url "main.views.show_question" question.id %}">{{ question.title }}</a></h6>
+            <span class="fr time">{{ question.create_time|date:"Y年m月d日 H时i分" }}</span>
+        </li>
+        {% endfor %}
+    </ul>
+</section>
+<section class="my-answers">
+    <h1>{{ people.username }}回答的问题</h1>
+    <ul class="items">
+        {% for question in questions_answered %}
+        <li class="item">
+            <h6><a href="{% url "main.views.show_question" question.id %}">{{ question.title }}</a></h6>
+            <span class="fr time">{{ question.create_time|date:"Y年m月d日 H时i分" }}</span>
+        </li>
+        {% endfor %}
+    </ul>
+</section>
+{% endblock %}
+
+{% block main-right %}   
+{% endblock %}
+
+ 

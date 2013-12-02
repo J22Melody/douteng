@@ -45,6 +45,10 @@ class RegisterForm(forms.Form):
         return password2
    
 class QuestionForm(forms.Form):
+    def __init__(self,*args,**kwargs):
+        self.max_score = kwargs.pop('max_score')
+        super(QuestionForm,self).__init__(*args,**kwargs)
+
     title = forms.CharField(label=u"标题",max_length=50,error_messages={'required': '标题不能为空'})
     content = forms.CharField(label=u"内容",widget=forms.Textarea,required=False)
     score = forms.IntegerField(label=u"悬赏分值",initial=10,min_value=0,error_messages={'required': '请输入分值','min_value':'分值必须是正整数呢','invalid':'分值必须是正整数呢'})
@@ -52,5 +56,6 @@ class QuestionForm(forms.Form):
 
     def clean_score(self):
         score = self.cleaned_data['score']  
-        # 验证分数是否足够
+        if score > self.max_score:
+            raise forms.ValidationError("剩余分数不够啦")
         return score

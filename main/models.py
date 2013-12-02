@@ -28,7 +28,7 @@ class Profile(Eventable):
     phone = models.CharField(max_length=20,blank=True)
     sex = models.PositiveSmallIntegerField(choices=SEX,blank=True,null=True)
     introduction = models.TextField(blank=True)
-    user = models.OneToOneField(User,primary_key =True)
+    user = models.OneToOneField(User,primary_key=True)
     score = models.IntegerField(default=100)
     follower = models.ManyToManyField(User,related_name="followed")
 
@@ -56,7 +56,7 @@ class Question(Commentable,Eventable):
 
 class Answer(Commentable,Eventable):
     content = models.TextField()
-    score = models.IntegerField(default=0)
+    adopted = models.BooleanField(default=False)
     answerer = models.ForeignKey(User)
     question = models.ForeignKey(Question)
     create_time = models.DateTimeField(auto_now_add=True)
@@ -131,7 +131,7 @@ def question_follower_add(sender, instance, action, pk_set, **kwargs):
 @receiver(m2m_changed, sender=Profile.follower.through)
 def user_follower_add(sender, instance, action, pk_set, **kwargs):
     if action == "post_add":
-        event = Event(kind=5,user=User.objects.get(id=list(pk_set)[0]),father=instance)
+        event = Event(kind=5,user=User.objects.get(id=list(pk_set)[0]),father=instance.user)
         event.save()
 
 @receiver(m2m_changed, sender=Topic.follower.through)
@@ -149,7 +149,7 @@ def question_follower_del(sender, instance, action, pk_set, **kwargs):
 @receiver(m2m_changed, sender=Profile.follower.through)
 def user_follower_del(sender, instance, action, pk_set, **kwargs):
     if action == "post_remove":
-        event = Event.objects.get(kind=5,user_id=list(pk_set)[0],obj_id=instance.id)
+        event = Event.objects.get(kind=5,user_id=list(pk_set)[0],obj_id=instance.user.id)
         event.delete()
 
 @receiver(m2m_changed, sender=Topic.follower.through)
